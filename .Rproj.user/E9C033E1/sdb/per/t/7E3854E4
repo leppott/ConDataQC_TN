@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#!/cygdrive/c/Program Files/R/R-3.3.2patched/bin/R\n#\n# Master Continuous Data Script\n# Will prompt user for what to do\n# Erik.Leppo@tetratech.com\n# 20151118\n#################\n# Master Functions Script that is invoked from a calling the master script\n# The master will have different versions but will all call this one.\n#\nlibrary(futile.logger, quietly = TRUE, warn.conflicts = FALSE)\n\n# This is used to find the pandoc library\nSys.setenv(RSTUDIO_PANDOC=\"C:/Users/james.bisese/Documents/RStudio/bin/pandoc\")\n\n# Source all libraries\nmyFiles.debugSource <- file.path(config.Folder.Libs,\n                                 c(\"config.R\"\n                                   ,\"fun.DateFormat.R\"\n                                   ,\"fun.Helper.R\"\n                                   ,\"fun.GageData.R\"\n                                   ,\"fun.QC.R\"\n                                   ,\"fun.Report.R\"\n                                   ,\"fun.AggregateData.R\"\n                                   ,\"fun.Stats.R\"\n                                  ))\n#\nsapply(myFiles.debugSource, source, .GlobalEnv)\n\n\nflog.threshold(config.LoggingLevel)\n\nflog.appender(appender.tee(config.LoggingFile))\n\nreturn()\n\n\n\n\n\n\n\n",
+    "created" : 1488990353658.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "90510953",
+    "id" : "7E3854E4",
+    "lastKnownWriteTime" : 1489019102,
+    "last_content_update" : 1489019102686,
+    "path" : "~/tn_realtime/working/R_scripts/libs/fun.InitializeLibs.R",
+    "project_path" : "libs/fun.InitializeLibs.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

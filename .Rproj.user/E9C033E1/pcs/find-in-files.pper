@@ -1,0 +1,12 @@
+{
+    "dialog-state" : {
+        "caseSensitive" : true,
+        "filePatterns" : [
+            "*.r",
+            "*.R"
+        ],
+        "path" : "~/tn_realtime/working/R_scripts",
+        "query" : ".exists",
+        "regex" : false
+    }
+}
