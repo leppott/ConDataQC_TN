@@ -117,7 +117,7 @@ fun.Stats <- function(fun.myData.SiteID
   data.import[,myName.Mo]   <- format(as.Date(data.import[,myName.Date]),format="%m")
   data.import[,myName.YrMo] <- format(as.Date(data.import[,myName.Date]),format="%Y%m")
   data.import[,myName.MoDa] <- format(as.Date(data.import[,myName.Date]),format="%m%d")
-  data.import[,myName.JuDa] <- as.POSIXlt(data.import[,myName.Date], format=myFormat.Date)$yday
+  data.import[,myName.JuDa] <- as.POSIXlt(data.import[,myName.Date], format=myFormat.Date)$yday+1
   ## add Season fields
 #   md <- data.import[,myName.MoDa]
 #   data.import[,myName.Season] <- NA
@@ -141,13 +141,20 @@ fun.Stats <- function(fun.myData.SiteID
   ## Flow (WaterLevel and Discharge)
   ## Nothing on Pressure (used to calculate waterlevel)
   # future add pH, Cond, etc from USGS gages
-  myFields.Data       <- c(myName.WaterTemp, myName.AirTemp, myName.WaterLevel)
-  myFields.Data.Flags <- c(myName.Flag.WaterTemp,myName.Flag.AirTemp,myName.Flag.WaterLevel)
-  myFields.Type       <- c("Thermal","Thermal","Hydrologic")
+  myFields.Data       <- c(myName.WaterTemp, myName.AirTemp, myName.WaterLevel
+                           ,myName.Discharge, myName.Cond, myName.DO, myName.pH
+                           ,myName.Turbidity, myName.Chlorophylla, myName.GageHeight)
+  myFields.Data.Flags <- paste0(myName.Flag,".",myFields.Data)
+  myFields.Type       <- c("Thermal","Thermal","Hydrologic"
+                           ,"Hydrologic", "WaterChemistry", "WaterChemistry", "WaterChemistry"
+                           , "WaterChemistry", "WaterChemistry", "Hydrologic")
   myFields.Keep <- c(myName.SiteID
-                     ,myName.Date,myName.Time,myName.DateTime
-                     ,myNames.Fields.TimePeriods
-                     ,myFields.Data,myFields.Data.Flags
+                     , myName.Date
+                     , myName.Time
+                     , myName.DateTime
+                     , myNames.Fields.TimePeriods
+                     , myFields.Data
+                     , myFields.Data.Flags
                      )
   # keep only fields needed for stats
  # data.import <- data.import[,myFields.Keep]
@@ -173,6 +180,9 @@ fun.Stats <- function(fun.myData.SiteID
       myFlag <- myFields.Data.Flags[i.num]
     #data.stats.nofail <- data.stats[data.stats[,myFields.Data.Flags[i.num]]!=myFlagVal.Fail,]
 
+    # 20170519, feedback to user
+    print(paste0("Processing item ",i.num," of ",length(data2process),"; ",i))
+    flush.console()
     #data.stats.nofail <- data.stats
     #data.stats.nofail[data.stats.nofail[,data.stats[,myFields.Data.Flags[i.num]]=myFlagVal.Fail]] <- na
 
@@ -219,22 +229,32 @@ fun.Stats <- function(fun.myData.SiteID
 
     # Create Daily Values (mean) (DV is USGS term so use that)
 
-    if(i==myFields.Data[1]) {
-      dv.i <- summaryBy(as.numeric(Water.Temp.C)~Date, data=data.stats, FUN=c(mean), na.rm=TRUE
-                        , var.names="i",id=c(myName.SiteID,"Year","YearMonth",myName.Mo,myName.MoDa,myName.JuDa,myName.Season,"YearSeason"))
-    } else if(i==myFields.Data[2]) {
-      dv.i <- summaryBy(as.numeric(Air.Temp.C)~Date, data=data.stats, FUN=c(mean), na.rm=TRUE
-                        , var.names="i",id=c(myName.SiteID,"Year","YearMonth",myName.Mo,myName.MoDa,myName.JuDa,myName.Season,"YearSeason"))
-    } else if (i==myFields.Data[3]) {
-      dv.i <- summaryBy(as.numeric(Water.Level.ft)~Date, data=data.stats, FUN=c(mean), na.rm=TRUE
-                        , var.names="i",id=c(myName.SiteID,"Year","YearMonth",myName.Mo,myName.MoDa,myName.JuDa,myName.Season,"YearSeason"))
-    }
+    # if(i==myFields.Data[1]) {
+    #   dv.i <- summaryBy(as.numeric(Water.Temp.C)~Date, data=data.stats, FUN=c(mean), na.rm=TRUE
+    #                     , var.names="i",id=c(myName.SiteID,"Year","YearMonth",myName.Mo,myName.MoDa,myName.JuDa,myName.Season,"YearSeason"))
+    # } else if(i==myFields.Data[2]) {
+    #   dv.i <- summaryBy(as.numeric(Air.Temp.C)~Date, data=data.stats, FUN=c(mean), na.rm=TRUE
+    #                     , var.names="i",id=c(myName.SiteID,"Year","YearMonth",myName.Mo,myName.MoDa,myName.JuDa,myName.Season,"YearSeason"))
+    # } else if (i==myFields.Data[3]) {
+    #   dv.i <- summaryBy(as.numeric(Water.Level.ft)~Date, data=data.stats, FUN=c(mean), na.rm=TRUE
+    #                     , var.names="i",id=c(myName.SiteID,"Year","YearMonth",myName.Mo,myName.MoDa,myName.JuDa,myName.Season,"YearSeason"))
+    # }
 
 
 #     dv.i <- summaryBy(as.numeric(data.stats[,i])~Date, data=data.stats, FUN=c(mean), na.rm=TRUE
 #                       , var.names="i")#,id=c(myName.SiteID,"Year","YearMonth",myName.MoDa,myName.JuDa,myName.Season,"YearSeason"))
 #
 
+    # 20170519, fix hard coded names
+    #
+    # name to myVar then name back
+    ColNum.i <- match(i,names(data.stats))
+    names(data.stats)[ColNum.i] <- "myVar"
+    dv.i <- doBy::summaryBy(as.numeric(myVar)~Date, data=data.stats, FUN=c(mean), na.rm=TRUE
+                            , var.names="i",id=c(myName.SiteID, myName.Yr , myName.YrMo, myName.Mo, myName.MoDa
+                                                 , myName.JuDa, myName.Season, myName.YrSeason))
+    names(data.stats)[ColNum.i] <- i
+    #
 
     # rename fields back (use dv.i generated by summaryBy)
     names(dv.i)[2] <- "mean"
@@ -275,7 +295,7 @@ fun.Stats <- function(fun.myData.SiteID
     #
     # summaryBy doesn't work with Group as variable (change value for running here)
     # have to change some back for dv.i.* when save
-    names(data.stats)[names(data.stats) %in% myName.Date] <- "Date"
+    #names(data.stats)[names(data.stats) %in% myName.Date] <- "Date"
     names(data.stats)[names(data.stats) %in% myName.Date] <- "Date"
     names(data.stats)[names(data.stats) %in% myName.YrMo] <- "YearMonth"
     names(data.stats)[names(data.stats) %in% myName.YrSeason] <- "YearSeason"

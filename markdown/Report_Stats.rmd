@@ -3,13 +3,13 @@ title: "Summary Statistics Report"
 output: word_document
 ---
 
-```{r, results='asis', echo=FALSE, warning=FALSE}
-  myReportDate <- format(Sys.Date(),"%Y-%m-%d")
+```{r report_date, results='asis', echo=FALSE, warning=FALSE}
+  myReportDate <- format(Sys.Date(),myFormat.Date)
   cat(paste("**Report Date:** ",myReportDate,"\n\n",sep=""))
 ```
 
 # DATA FILE INFORMATION
-```{r, results='asis', echo=FALSE, warning=FALSE}
+```{r data_file_info, results='asis', echo=FALSE, warning=FALSE}
   
   #filename
   cat("**Filename:** ",strFile,"\n\n",sep="")
@@ -18,7 +18,11 @@ output: word_document
   
   cat(paste("**Period of Record, Requested:** ",fun.myData.DateRange.Start," to ",fun.myData.DateRange.End,sep="",collapse="\n\n"))
        
-  myTimeDiff <- difftime(data.import[11,myName.DateTime],data.import[10,myName.DateTime],units="mins")
+  # myTimeDiff <- difftime(data.import[11,myName.DateTime],data.import[10,myName.DateTime],units="mins")
+  x <- data.import[,myName.DateTime]
+  myTimeDiff.all <- difftime(x[-1],x[-length(x)])
+  myTimeDiff <- median(as.vector(myTimeDiff.all))
+  
   cat(paste("\n\n**Period of Record, Actual:** ",min(data.import[,myName.Date])," to ",max(data.import[,myName.Date]),"\n\n",sep=""))
        
   cat(paste("**Recording Interval:** ",myTimeDiff[1]," minutes\n\n",sep=""))
@@ -38,7 +42,7 @@ output: word_document
 Summary statistics and plots by parameter and time frame (year, season, month, and daily)
 
 
-```{r, results='asis', echo=FALSE, warning=FALSE}
+```{r stats_summary, results='asis', echo=FALSE, warning=FALSE}
 #  # 3. Data Info, by Parameter
 #     # Individual Data Type Report
 #     # QC

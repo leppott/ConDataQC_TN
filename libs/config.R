@@ -44,6 +44,12 @@ myUnits.AirBP       <- "psi"
 myUnits.WaterP      <- myUnits.AirBP
 myUnits.WaterLevel  <- "ft"
 myUnits.Discharge   <- "ft3.s"
+myUnits.Cond       <- "uS.cm"
+myUnits.DO         <- "mg.L"
+myUnits.pH         <- "SU"
+myUnits.Turbidity  <- "NTU"
+myUnits.Chlorophylla <- "g.cm3"
+myUnits.GageHeight <- "ft"
 
 ## Air and Water
 myName.SiteID         <- "SiteID"
@@ -64,6 +70,12 @@ myName.WaterP         <- paste0("Water.BP.", myUnits.WaterP)
 myName.AirBP          <- paste0("Air.BP.", myUnits.WaterP)
 myName.WaterLevel     <- paste0("Water.Level.", myUnits.WaterLevel)
 myName.Discharge      <- paste0("Discharge.", myUnits.Discharge)
+myName.Cond          <- paste0("Conductivity.",myUnits.Cond)
+myName.DO            <- paste0("DO.",myUnits.DO)
+myName.pH            <- paste0("pH.",myUnits.pH)
+myName.Turbidity     <- paste0("Turbidity.",myUnits.DO)
+myName.Chlorophylla   <- paste0("Chlorophylla.",myUnits.pH)
+myName.GageHeight    <- paste0("GageHeight.",myUnits.GageHeight)
 
 ## plot labels
 myLab.WaterTemp       <- paste("Temperature, Water (?",myUnits.WaterTemp,")",sep="")
@@ -75,6 +87,12 @@ myLab.AirBP           <- paste("Barometric Pressure, Air (",myUnits.WaterP,")",s
 myLab.WaterLevel      <- paste("Water Level (",myUnits.WaterLevel,")",sep="")
 myLab.Temp.BOTH       <- paste("Temperature (?",myUnits.WaterTemp,")",sep="")
 myLab.Discharge       <- paste("Discharge (ft?/s)")
+myLab.Cond           <- paste0("Conductivity (",sub("\\.","/",myUnits.Cond),")")    #replace "." with "/"
+myLab.DO             <- paste0("Dissolved Oxygen (",sub("\\.","/",myUnits.DO),")")  #replace "." with "/"
+myLab.pH             <- paste0("pH (",myUnits.pH,")")
+myLab.Turbidity      <- paste0("Turbidity (",myUnits.Turbidity,")")
+myLab.Chlorophylla   <- paste0("Chlorophyll a (",sub("\\.","/",myUnits.Chlorophylla),")")    #replace "." with "/"
+myLab.GageHeight     <- paste0("Gage Height (",myUnits.GageHeight,")")
 
 #####################################################################
 # Discrete Measurements
@@ -91,6 +109,12 @@ myLab.Discrete.WaterP       <- paste(myLab.WaterP,"(Discrete)",sep=" ")
 myLab.Discrete.AirBP        <- paste(myLab.AirBP,"(Discrete)",sep=" ")
 myLab.Discrete.WaterLevel   <- paste(myLab.WaterLevel,"(Discrete)",sep=" ")
 myLab.Discrete.Discharge    <- paste(myLab.Discharge,"(Discrete)",sep=" ")
+myName.Discrete.Cond       <- paste(myPrefix.Discrete,myName.Cond,sep=".")
+myName.Discrete.DO         <- paste(myPrefix.Discrete,myName.DO,sep=".")
+myName.Discrete.pH         <- paste(myPrefix.Discrete,myName.pH,sep=".")
+myName.Discrete.Turbidity  <- paste(myPrefix.Discrete,myName.Turbidity,sep=".")
+myName.Discrete.Chlorophylla <- paste(myPrefix.Discrete,myName.Chlorophylla,sep=".")
+myName.Discrete.GageHeight <- paste(myPrefix.Discrete,myName.GageHeight,sep=".")
 
 #####################################################################
 # Automated QC stuff
@@ -106,11 +130,21 @@ myDataQuality.Aggregated  <- "Aggregated"
 # Data Fields
 myNames.DataFields <- c(myName.WaterTemp,myName.AirTemp,myName.WaterP,myName.AirBP,myName.WaterLevel,myName.Discharge
                         ,myName.Discrete.WaterTemp,myName.Discrete.AirTemp,myName.Discrete.WaterP,myName.Discrete.AirBP,
-                        myName.Discrete.WaterLevel,myName.Discrete.Discharge)
+                        myName.Discrete.WaterLevel,myName.Discrete.Discharge, myName.Discrete.Cond
+                        , myName.Discrete.DO
+                        , myName.Discrete.pH
+                        , myName.Discrete.Turbidity
+                        , myName.Discrete.Chlorophylla
+                        , myName.Discrete.GageHeight)
 
 myNames.DataFields.Lab <- c(myLab.WaterTemp,myLab.AirTemp,myLab.WaterP,myLab.AirBP,myLab.WaterLevel,myLab.Discharge
                             ,myLab.Discrete.WaterTemp,myLab.Discrete.AirTemp,myLab.Discrete.WaterP,myLab.Discrete.AirBP,
-                            myLab.Discrete.WaterLevel,myLab.Discrete.Discharge)
+                            myLab.Discrete.WaterLevel,myLab.Discrete.Discharge, myLab.Discrete.Cond
+                            , myLab.Discrete.DO
+                            , myLab.Discrete.pH
+                            , myLab.Discrete.Turbidity
+                            , myLab.Discrete.Chlorophylla
+                            , myLab.Discrete.GageHeight)
 
 myNames.DataFields.Col <- c("blue","green","gray","gray","black","brown")
 
@@ -119,7 +153,12 @@ myNames.DataFields.Col <- c("blue","green","gray","gray","black","brown")
 myNames.Order <- c(myName.SiteID,myName.Date,myName.Time,myName.DateTime,myName.WaterTemp,myName.LoggerID.Air,myName.RowID.Air
                    ,myName.AirTemp,myName.WaterP,myName.AirBP,myName.WaterLevel,myName.LoggerID.Water,myName.RowID.Water,myName.Discharge
                    ,myName.Discrete.WaterTemp,myName.Discrete.AirTemp,myName.Discrete.WaterP,myName.Discrete.AirBP
-                   ,myName.Discrete.WaterLevel,myName.Discrete.Discharge)
+                   ,myName.Discrete.WaterLevel,myName.Discrete.Discharge, myName.Discrete.Cond
+                   , myName.Discrete.DO
+                   , myName.Discrete.pH
+                   , myName.Discrete.Turbidity
+                   , myName.Discrete.Chlorophylla
+                   , myName.Discrete.GageHeight)
 
 ######################################################################
 
@@ -153,6 +192,18 @@ myThresh.Gross.Fail.Hi.WaterLevel <- 6    # no longer used (only check for negat
 myThresh.Gross.Fail.Lo.WaterLevel <- -1   # no longer used (only check for negative values for WaterLevel)
 myThresh.Gross.Fail.Hi.Discharge  <- 10^5 #dependant upon stream size (only checkf or negative values)
 myThresh.Gross.Fail.Lo.Discharge  <- -1   #dependant upon stream size
+myThresh.Gross.Fail.Hi.Cond       <- 1500
+myThresh.Gross.Fail.Lo.Cond       <- 10
+myThresh.Gross.Fail.Hi.DO         <- 20
+myThresh.Gross.Fail.Lo.DO         <- 1
+myThresh.Gross.Fail.Hi.pH         <- 12
+myThresh.Gross.Fail.Lo.pH         <- 3
+myThresh.Gross.Fail.Hi.Turbidity         <- 10^5
+myThresh.Gross.Fail.Lo.Turbidity         <- -1
+myThresh.Gross.Fail.Hi.Chlorophylla         <- 10^5
+myThresh.Gross.Fail.Lo.Chlorophylla          <- -1
+myThresh.Gross.Fail.Hi.GageHeight         <- 10^5
+myThresh.Gross.Fail.Lo.GageHeight          <- -1
 
 ## Gross Min/Max, Suspect (extreme)
 myThresh.Gross.Suspect.Hi.WaterTemp  <- 25
@@ -167,6 +218,18 @@ myThresh.Gross.Suspect.Hi.WaterLevel <- 5    # no longer used (only check for ne
 myThresh.Gross.Suspect.Lo.WaterLevel <- 0    # no longer used (only check for negative values for WaterLevel)
 myThresh.Gross.Suspect.Hi.Discharge  <- 10^3 #dependant upon stream size (only checkf or negative values
 myThresh.Gross.Suspect.Lo.Discharge  <- -1   #dependant upon stream size
+myThresh.Gross.Suspect.Hi.Cond       <- 1200
+myThresh.Gross.Suspect.Lo.Cond       <- 20
+myThresh.Gross.Suspect.Hi.DO         <- 18
+myThresh.Gross.Suspect.Lo.DO         <- 2
+myThresh.Gross.Suspect.Hi.pH         <- 11
+myThresh.Gross.Suspect.Lo.pH         <- 4
+myThresh.Gross.Suspect.Hi.Turbidity         <- 10^3
+myThresh.Gross.Suspect.Lo.Turbidity          <- -1
+myThresh.Gross.Suspect.Hi.Chlorophylla         <- 10^3
+myThresh.Gross.Suspect.Lo.Chlorophylla         <- 1
+myThresh.Gross.Suspect.Hi.GageHeight         <- 10^3
+myThresh.Gross.Suspect.Lo.GageHeight        <- 1
 
 ## Spike thresholds (absolute change)
 myThresh.Spike.Hi.WaterTemp   <- 10
@@ -181,6 +244,18 @@ myThresh.Spike.Hi.WaterLevel  <- 5
 myThresh.Spike.Lo.WaterLevel  <- 3
 myThresh.Spike.Hi.Discharge   <- 10^4 #dependant upon stream size
 myThresh.Spike.Lo.Discharge   <- 10^3 #dependant upon stream size
+myThresh.Spike.Hi.Cond       <- 10
+myThresh.Spike.Lo.Cond       <- 5
+myThresh.Spike.Hi.DO         <- 10
+myThresh.Spike.Lo.DO         <- 5
+myThresh.Spike.Hi.pH         <- 10
+myThresh.Spike.Lo.pH         <- 5
+myThresh.Spike.Hi.Turbidity         <- 10^4
+myThresh.Spike.Lo.Turbidity         <- 10^3
+myThresh.Spike.Hi.Chlorophylla         <- 10^4
+myThresh.Spike.Lo.Chlorophylla         <- 10^3
+myThresh.Spike.Hi.Chlorophylla         <- 10^4
+myThresh.Spike.Lo.Chlorophylla         <- 10^3
 
 ## Rate of Change (relative change)
 myDefault.RoC.SD.number   <- 3
@@ -197,6 +272,18 @@ myThresh.RoC.SD.number.WaterLevel <- myDefault.RoC.SD.number
 myThresh.RoC.SD.period.WaterLevel <- myDefault.RoC.SD.period
 myThresh.RoC.SD.number.Discharge  <- myDefault.RoC.SD.number
 myThresh.RoC.SD.period.Discharge  <- myDefault.RoC.SD.period
+myThresh.RoC.SD.number.Cond       <- myDefault.RoC.SD.number
+myThresh.RoC.SD.period.Cond       <- myDefault.RoC.SD.period
+myThresh.RoC.SD.number.DO         <- myDefault.RoC.SD.number
+myThresh.RoC.SD.period.DO         <- myDefault.RoC.SD.period
+myThresh.RoC.SD.number.pH         <- myDefault.RoC.SD.number
+myThresh.RoC.SD.period.pH         <- myDefault.RoC.SD.period
+myThresh.RoC.SD.number.Turbidity         <- myDefault.RoC.SD.number
+myThresh.RoC.SD.period.Turbidity         <- myDefault.RoC.SD.period
+myThresh.RoC.SD.number.Chlorophylla         <- myDefault.RoC.SD.number
+myThresh.RoC.SD.period.Chlorophylla        <- myDefault.RoC.SD.period
+myThresh.RoC.SD.number.GageHeight         <- myDefault.RoC.SD.number
+myThresh.RoC.SD.period.GageHeight        <- myDefault.RoC.SD.period
 
 ## No Change (flat-line)
 myDefault.Flat.Hi         <- 30  # maximum is myThresh.Flat.MaxComp
@@ -221,12 +308,35 @@ myThresh.Flat.Tolerance.WaterLevel  <- 0.0
 myThresh.Flat.Hi.Discharge          <- myDefault.Flat.Hi * 2
 myThresh.Flat.Lo.Discharge          <- myDefault.Flat.Lo * 2
 myThresh.Flat.Tolerance.Discharge   <- 0.01
+myThresh.Flat.Hi.Cond              <- myDefault.Flat.Hi * 2
+myThresh.Flat.Lo.Cond              <- myDefault.Flat.Lo * 2
+myThresh.Flat.Tolerance.Cond       <- 0.01
+myThresh.Flat.Hi.DO                <- myDefault.Flat.Hi * 2
+myThresh.Flat.Lo.DO                <- myDefault.Flat.Lo * 2
+myThresh.Flat.Tolerance.DO         <- 0.01
+myThresh.Flat.Hi.pH                <- myDefault.Flat.Hi * 2
+myThresh.Flat.Lo.pH                <- myDefault.Flat.Lo * 2
+myThresh.Flat.Tolerance.pH         <- 0.01
+myThresh.Flat.Hi.Turbidity               <- myDefault.Flat.Hi * 2
+myThresh.Flat.Lo.Turbidity                <- myDefault.Flat.Lo * 2
+myThresh.Flat.Tolerance.Turbidity         <- 0.01
+myThresh.Flat.Hi.Chlorophylla                <- myDefault.Flat.Hi * 2
+myThresh.Flat.Lo.Chlorophylla                <- myDefault.Flat.Lo * 2
+myThresh.Flat.Tolerance.Chlorophylla        <- 0.01
+myThresh.Flat.Lo.GageHeight               <- myDefault.Flat.Lo * 2
+myThresh.Flat.Tolerance.GageHeight        <- 0.01
 myThresh.Flat.MaxComp     <- max(myThresh.Flat.Hi.WaterTemp
                                  ,myThresh.Flat.Hi.AirTemp
                                  ,myThresh.Flat.Hi.WaterP
                                  ,myThresh.Flat.Hi.AirBP
                                  ,myThresh.Flat.Hi.WaterLevel
-                                 ,myThresh.Flat.Hi.Discharge)
+                                 ,myThresh.Flat.Hi.Discharge
+                                 , myThresh.Flat.Hi.Cond
+                                 , myThresh.Flat.Hi.DO
+                                 , myThresh.Flat.Hi.pH
+                                 , myThresh.Flat.Hi.Turbidity
+                                 , myThresh.Flat.Hi.Chlorophylla
+                                 , myThresh.Flat.Hi.GageHeight)
 
 #####################################################################
 
@@ -243,6 +353,12 @@ myName.Flag.WaterP      <- paste(myName.Flag,myName.WaterP,sep=".")
 myName.Flag.AirBP       <- paste(myName.Flag,myName.AirBP,sep=".")
 myName.Flag.WaterLevel  <- paste(myName.Flag,myName.WaterLevel,sep=".")
 myName.Flag.Discharge   <- paste(myName.Flag,myName.Discharge,sep=".")
+myName.Flag.Cond       <- paste(myName.Flag,myName.Cond,sep=".")
+myName.Flag.DO         <- paste(myName.Flag,myName.DO,sep=".")
+myName.Flag.pH         <- paste(myName.Flag,myName.pH,sep=".")
+myName.Flag.Turbidity         <- paste(myName.Flag,myName.Turbidity,sep=".")
+myName.Flag.Chlorophylla        <- paste(myName.Flag,myName.Chlorophylla,sep=".")
+myName.Flag.GageHeight        <- paste(myName.Flag,myName.GageHeight,sep=".")
 
 # Data Quality Test Names
 myNames.QCTests <- c("Gross","Spike","RoC","Flat")
@@ -287,9 +403,17 @@ myName.YrMo     <- "YearMonth"
 myName.Mo       <- "Month"
 myName.MoDa     <- "MonthDay"
 myName.JuDa     <- "JulianDay"
+myName.Day      <- "Day"
 myName.Season   <- "Season"
 myName.YrSeason <- "YearSeason"
-
+# for summary stats
+myNames.Fields.TimePeriods <- c(myName.Yr
+                               ,myName.YrMo
+                               ,myName.Mo
+                               ,myName.MoDa
+                               ,myName.JuDa
+                               ,myName.Season
+                               ,myName.YrSeason)
 ######################################################################
 
 # Trigger for Stats to exclude (TRUE) or include (FALSE) where flag = "fail"

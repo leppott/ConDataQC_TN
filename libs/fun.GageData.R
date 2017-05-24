@@ -9,6 +9,7 @@
 # Basic Operations:
 # download from USGS based on user selection
 # daily means
+# 20170524, added Time Zone
 
 
 # library (load any required helper functions)
@@ -19,7 +20,8 @@ fun.GageData <- function(fun.myData.SiteID
                          ,fun.myData.DateRange.Start
                          ,fun.myData.DateRange.End
                          ,fun.myDir.SUB.import
-                         ,fun.myDir.SUB.export) {
+                         ,fun.myDir.SUB.export
+                         ,fun.myTZ=myTZ) {
 
   # data directories
   #
@@ -119,7 +121,7 @@ fun.GageData <- function(fun.myData.SiteID
                               ,myCode
                               ,startDate=fun.myData.DateRange.Start
                               ,endDate=fun.myData.DateRange.End
-                              , tz=myTZ )
+                              ,tz=fun.myTZ )
 
     # column headers are "X_myCode_myStat"
     # can put in multipe and it only runs on those present
