@@ -18,7 +18,7 @@
 
 
 # 20160208
-# WaterLevel - Gross is only negative, Flat = remove
+# SensorDepth - Gross is only negative, Flat = remove
 # 20160303
 # Rolling SD.  Use "zoo" and rollapply.  Loop too slow for large/dense data sets.
 # (will crash if less than 5 records so added "stop")
@@ -222,8 +222,11 @@ fun.QC_file <- function(input_file_name,
                                                                     ,format=myFormat,usetz=FALSE)
 
   # Create Month and Day Field
-  data.import[,"month"] <- as.POSIXlt(data.import$Date)$mon + 1
-  data.import[,"day"]   <- as.POSIXlt(data.import$Date)$mday
+  #data.import[,"month"] <- as.POSIXlt(data.import$Date)$mon + 1
+  #data.import[,"day"]   <- as.POSIXlt(data.import$Date)$mday
+  data.import[,myName.Month] <- as.POSIXlt(data.import$Date)$mon + 1
+  data.import[,myName.Day]   <- as.POSIXlt(data.import$Date)$mday
+  data.import[,myName.Yr] <- as.POSIXlt(data.import[,myName.Date])$year+1900
 
   # 6. QC for each Data Type present
   # sub routine adds QC Calcs, QC Test Flags, Assigns overall Flag, and removes QC Calc Fields
@@ -318,25 +321,25 @@ fun.QC_file <- function(input_file_name,
                                    ,myThresh.Flat.Tolerance.AirBP)
   }
   #
-  # 6.5. WaterLevel
-  myField <- myName.WaterLevel
+  # 6.5. SensorDepth
+  myField <- myName.SensorDepth
 
   if(myField %in% myNames.DataFields.Present==TRUE)
   {
     flog.debug(paste0('Processing data for ', myField))
     data.import <- fun.CalcQCStats(data.import
                                    ,myField
-                                   ,myThresh.Gross.Fail.Hi.WaterLevel
-                                   ,myThresh.Gross.Fail.Lo.WaterLevel
-                                   ,myThresh.Gross.Suspect.Hi.WaterLevel
-                                   ,myThresh.Gross.Suspect.Lo.WaterLevel
-                                   ,myThresh.Spike.Hi.WaterLevel
-                                   ,myThresh.Spike.Lo.WaterLevel
-                                   ,myThresh.RoC.SD.period.WaterLevel
-                                   ,myThresh.RoC.SD.number.WaterLevel
-                                   ,myThresh.Flat.Hi.WaterLevel
-                                   ,myThresh.Flat.Lo.WaterLevel
-                                   ,myThresh.Flat.Tolerance.WaterLevel)
+                                   ,myThresh.Gross.Fail.Hi.SensorDepth
+                                   ,myThresh.Gross.Fail.Lo.SensorDepth
+                                   ,myThresh.Gross.Suspect.Hi.SensorDepth
+                                   ,myThresh.Gross.Suspect.Lo.SensorDepth
+                                   ,myThresh.Spike.Hi.SensorDepth
+                                   ,myThresh.Spike.Lo.SensorDepth
+                                   ,myThresh.RoC.SD.period.SensorDepth
+                                   ,myThresh.RoC.SD.number.SensorDepth
+                                   ,myThresh.Flat.Hi.SensorDepth
+                                   ,myThresh.Flat.Lo.SensorDepth
+                                   ,myThresh.Flat.Tolerance.SensorDepth)
     #
   }
   #
@@ -361,7 +364,141 @@ fun.QC_file <- function(input_file_name,
                                    ,myThresh.Flat.Lo.Discharge
                                    ,myThresh.Flat.Tolerance.Discharge)
   }
+  # B.6.07. Conductivity
+      myField <- ContData.env$myName.Cond
+      if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
+          #
+            flog.debug(paste0('Processing data for ', myField))
+          # myMsg.data <- "Cond"
+            # myMsg <- paste("WORKING (QC Tests and Flags - ",myMsg.data,")",sep="")
+            # myItems.Complete <- myItems.Complete + 1
+            # myItems.Log[intCounter,2] <- myMsg
+            # fun.Msg.Status(myMsg, intCounter, intItems.Total, strFile)
+            # flush.console()
+            #
+            data.import <- fun.CalcQCStats(data.import
+                                         ,myField
+                                         ,ContData.env$myThresh.Gross.Fail.Hi.Cond
+                                         ,ContData.env$myThresh.Gross.Fail.Lo.Cond
+                                         ,ContData.env$myThresh.Gross.Suspect.Hi.Cond
+                                         ,ContData.env$myThresh.Gross.Suspect.Lo.Cond
+                                         ,ContData.env$myThresh.Spike.Hi.Cond
+                                         ,ContData.env$myThresh.Spike.Lo.Cond
+                                         ,ContData.env$myThresh.RoC.SD.period.Cond
+                                         ,ContData.env$myThresh.RoC.SD.number.Cond
+                                         ,ContData.env$myThresh.Flat.Hi.Cond
+                                         ,ContData.env$myThresh.Flat.Lo.Cond
+                                         ,ContData.env$myThresh.Flat.Tolerance.Cond)
 
+            }##IF.myField.END
+      #
+        # B.6.08. Dissolved Oxygen
+        myField <- ContData.env$myName.DO
+      if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
+          #
+            flog.debug(paste0('Processing data for ', myField))
+          # myMsg.data <- "DO"
+            # myMsg <- paste("WORKING (QC Tests and Flags - ",myMsg.data,")",sep="")
+            # myItems.Complete <- myItems.Complete + 1
+            # myItems.Log[intCounter,2] <- myMsg
+            # fun.Msg.Status(myMsg, intCounter, intItems.Total, strFile)
+            # flush.console()
+            #
+            data.import <- fun.CalcQCStats(data.import
+                                           ,myField
+                                           ,ContData.env$myThresh.Gross.Fail.Hi.DO
+                                           ,ContData.env$myThresh.Gross.Fail.Lo.DO
+                                           ,ContData.env$myThresh.Gross.Suspect.Hi.DO
+                                           ,ContData.env$myThresh.Gross.Suspect.Lo.DO
+                                           ,ContData.env$myThresh.Spike.Hi.DO
+                                           ,ContData.env$myThresh.Spike.Lo.DO
+                                           ,ContData.env$myThresh.RoC.SD.period.DO
+                                           ,ContData.env$myThresh.RoC.SD.number.DO
+                                           ,ContData.env$myThresh.Flat.Hi.DO
+                                           ,ContData.env$myThresh.Flat.Lo.DO
+                                           ,ContData.env$myThresh.Flat.Tolerance.DO)
+          }##IF.myField.END
+      #
+        # B.6.09. pH
+        myField <- ContData.env$myName.pH
+      if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
+          #
+            flog.debug(paste0('Processing data for ', myField))
+          # myMsg.data <- "pH"
+            # myMsg <- paste("WORKING (QC Tests and Flags - ",myMsg.data,")",sep="")
+            # myItems.Complete <- myItems.Complete + 1
+            # myItems.Log[intCounter,2] <- myMsg
+            # fun.Msg.Status(myMsg, intCounter, intItems.Total, strFile)
+            # flush.console()
+            #
+            data.import <- fun.CalcQCStats(data.import
+                                           ,myField
+                                           ,ContData.env$myThresh.Gross.Fail.Hi.pH
+                                           ,ContData.env$myThresh.Gross.Fail.Lo.pH
+                                           ,ContData.env$myThresh.Gross.Suspect.Hi.pH
+                                           ,ContData.env$myThresh.Gross.Suspect.Lo.pH
+                                           ,ContData.env$myThresh.Spike.Hi.pH
+                                           ,ContData.env$myThresh.Spike.Lo.pH
+                                           ,ContData.env$myThresh.RoC.SD.period.pH
+                                           ,ContData.env$myThresh.RoC.SD.number.pH
+                                           ,ContData.env$myThresh.Flat.Hi.pH
+                                           ,ContData.env$myThresh.Flat.Lo.pH
+                                           ,ContData.env$myThresh.Flat.Tolerance.pH)
+          }##IF.myField.END
+      #
+        # B.6.10. Turbidity
+        myField <- ContData.env$myName.Turbidity
+      if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
+          #
+            flog.debug(paste0('Processing data for ', myField))
+          # myMsg.data <- "Turbidity"
+            # myMsg <- paste("WORKING (QC Tests and Flags - ",myMsg.data,")",sep="")
+            # myItems.Complete <- myItems.Complete + 1
+            # myItems.Log[intCounter,2] <- myMsg
+            # fun.Msg.Status(myMsg, intCounter, intItems.Total, strFile)
+            # flush.console()
+            #
+            data.import <- fun.CalcQCStats(data.import
+                                           ,myField
+                                           ,ContData.env$myThresh.Gross.Fail.Hi.Turbidity
+                                           ,ContData.env$myThresh.Gross.Fail.Lo.Turbidity
+                                           ,ContData.env$myThresh.Gross.Suspect.Hi.Turbidity
+                                           ,ContData.env$myThresh.Gross.Suspect.Lo.Turbidity
+                                           ,ContData.env$myThresh.Spike.Hi.Turbidity
+                                           ,ContData.env$myThresh.Spike.Lo.Turbidity
+                                           ,ContData.env$myThresh.RoC.SD.period.Turbidity
+                                           ,ContData.env$myThresh.RoC.SD.number.Turbidity
+                                           ,ContData.env$myThresh.Flat.Hi.Turbidity
+                                           ,ContData.env$myThresh.Flat.Lo.Turbidity
+                                           ,ContData.env$myThresh.Flat.Tolerance.Turbidity)
+          }##IF.myField.END
+      #
+        # B.6.11. Chlorophyll a
+        myField <- ContData.env$myName.Chlorophylla
+      if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
+          #
+            flog.debug(paste0('Processing data for ', myField))
+          # myMsg.data <- "Chlorophylla"
+            # myMsg <- paste("WORKING (QC Tests and Flags - ",myMsg.data,")",sep="")
+            # myItems.Complete <- myItems.Complete + 1
+            # myItems.Log[intCounter,2] <- myMsg
+            # fun.Msg.Status(myMsg, intCounter, intItems.Total, strFile)
+            # flush.console()
+            #
+            data.import <- fun.CalcQCStats(data.import
+                                           ,myField
+                                           ,ContData.env$myThresh.Gross.Fail.Hi.Chlorophylla
+                                           ,ContData.env$myThresh.Gross.Fail.Lo.Chlorophylla
+                                           ,ContData.env$myThresh.Gross.Suspect.Hi.Chlorophylla
+                                           ,ContData.env$myThresh.Gross.Suspect.Lo.Chlorophylla
+                                           ,ContData.env$myThresh.Spike.Hi.Chlorophylla
+                                           ,ContData.env$myThresh.Spike.Lo.Chlorophylla
+                                           ,ContData.env$myThresh.RoC.SD.period.Chlorophylla
+                                           ,ContData.env$myThresh.RoC.SD.number.Chlorophylla
+                                           ,ContData.env$myThresh.Flat.Hi.Chlorophylla
+                                           ,ContData.env$myThresh.Flat.Lo.Chlorophylla
+                                           ,ContData.env$myThresh.Flat.Tolerance.Chlorophylla)
+          }##IF.myField.END
   #############################
   #
   # Names of columns for QC Calculations and Tests with Flags for each data column present
@@ -901,25 +1038,25 @@ fun.QC <- function(fun.myData.SiteID
                                   ,myThresh.Flat.Tolerance.AirBP)
     }
     #
-    # 6.5. WaterLevel
-    myField <- myName.WaterLevel
+    # 6.5. SensorDepth
+    myField <- myName.SensorDepth
 
     if(myField %in% myNames.DataFields.Present==TRUE)
     {
       flog.debug(paste0('Processing data for ', myField))
       data.import <- fun.CalcQCStats(data.import
                                   ,myField
-                                  ,myThresh.Gross.Fail.Hi.WaterLevel
-                                  ,myThresh.Gross.Fail.Lo.WaterLevel
-                                  ,myThresh.Gross.Suspect.Hi.WaterLevel
-                                  ,myThresh.Gross.Suspect.Lo.WaterLevel
-                                  ,myThresh.Spike.Hi.WaterLevel
-                                  ,myThresh.Spike.Lo.WaterLevel
-                                  ,myThresh.RoC.SD.period.WaterLevel
-                                  ,myThresh.RoC.SD.number.WaterLevel
-                                  ,myThresh.Flat.Hi.WaterLevel
-                                  ,myThresh.Flat.Lo.WaterLevel
-                                  ,myThresh.Flat.Tolerance.WaterLevel)
+                                  ,myThresh.Gross.Fail.Hi.SensorDepth
+                                  ,myThresh.Gross.Fail.Lo.SensorDepth
+                                  ,myThresh.Gross.Suspect.Hi.SensorDepth
+                                  ,myThresh.Gross.Suspect.Lo.SensorDepth
+                                  ,myThresh.Spike.Hi.SensorDepth
+                                  ,myThresh.Spike.Lo.SensorDepth
+                                  ,myThresh.RoC.SD.period.SensorDepth
+                                  ,myThresh.RoC.SD.number.SensorDepth
+                                  ,myThresh.Flat.Hi.SensorDepth
+                                  ,myThresh.Flat.Lo.SensorDepth
+                                  ,myThresh.Flat.Tolerance.SensorDepth)
       #
     }
     #
@@ -1393,7 +1530,7 @@ fun.CalcQCStats <- function(fun.data.import
   fun.data.import[,myField][is.na(fun.data.import[,fun.myField.Data])==TRUE] <- myFlagVal.NoData
   # different test for water level, only if negative
 
-  if(fun.myField.Data==myName.WaterLevel)
+  if(fun.myField.Data==myName.SensorDepth)
   {
     # data < 0 (i.e., negative) = 4 (fail)
     fun.data.import[,myField][fun.data.import[,fun.myField.Data] < 0] <- myFlagVal.Fail

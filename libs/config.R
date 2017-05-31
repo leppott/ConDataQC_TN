@@ -42,7 +42,7 @@ myUnits.AirTemp     <- "C" # C or F
 myUnits.WaterTemp   <- myUnits.AirTemp
 myUnits.AirBP       <- "psi"
 myUnits.WaterP      <- myUnits.AirBP
-myUnits.WaterLevel  <- "ft"
+myUnits.SensorDepth  <- "ft"
 myUnits.Discharge   <- "ft3.s"
 myUnits.Cond       <- "uS.cm"
 myUnits.DO         <- "mg.L"
@@ -66,9 +66,9 @@ myName.WaterTemp      <- paste0("Water.Temp.",myUnits.WaterTemp)  # "?" from Hob
 myName.RowID.Air      <- "Air.RowID"
 myName.LoggerID.Air   <- "Air.LoggerID"
 myName.AirTemp        <- paste0("Air.Temp.", myUnits.AirTemp)   # "?" from HoboWare files sometimes adds "? " in front.  Replace with "." in R.
-myName.WaterP         <- paste0("Water.BP.", myUnits.WaterP)
-myName.AirBP          <- paste0("Air.BP.", myUnits.WaterP)
-myName.WaterLevel     <- paste0("Water.Level.", myUnits.WaterLevel)
+myName.WaterP         <- paste0("Water.P.", myUnits.WaterP)
+myName.AirBP          <- paste0("Air.BP.", myUnits.AirBP)
+myName.SensorDepth     <- paste0("Sensor.Depth.", myUnits.SensorDepth)
 myName.Discharge      <- paste0("Discharge.", myUnits.Discharge)
 myName.Cond          <- paste0("Conductivity.",myUnits.Cond)
 myName.DO            <- paste0("DO.",myUnits.DO)
@@ -84,7 +84,7 @@ myLab.Date            <- "Date"
 myLab.DateTime        <- "Date"
 myLab.WaterP          <- paste("Pressure, Water (",myUnits.AirBP,")",sep="")
 myLab.AirBP           <- paste("Barometric Pressure, Air (",myUnits.WaterP,")",sep="")
-myLab.WaterLevel      <- paste("Water Level (",myUnits.WaterLevel,")",sep="")
+myLab.SensorDepth      <- paste("Water Level (",myUnits.SensorDepth,")",sep="")
 myLab.Temp.BOTH       <- paste("Temperature (?",myUnits.WaterTemp,")",sep="")
 myLab.Discharge       <- paste("Discharge (ft?/s)")
 myLab.Cond           <- paste0("Conductivity (",sub("\\.","/",myUnits.Cond),")")    #replace "." with "/"
@@ -101,13 +101,13 @@ myName.Discrete.WaterTemp   <- paste(myPrefix.Discrete,myName.WaterTemp,sep=".")
 myName.Discrete.AirTemp     <- paste(myPrefix.Discrete,myName.AirTemp,sep=".")
 myName.Discrete.WaterP      <- paste(myPrefix.Discrete,myName.WaterP,sep=".")
 myName.Discrete.AirBP       <- paste(myPrefix.Discrete,myName.AirBP,sep=".")
-myName.Discrete.WaterLevel  <- paste(myPrefix.Discrete,myName.WaterLevel,sep=".")
+myName.Discrete.SensorDepth  <- paste(myPrefix.Discrete,myName.SensorDepth,sep=".")
 myName.Discrete.Discharge   <- paste(myPrefix.Discrete,myName.Discharge,sep=".")
 myLab.Discrete.WaterTemp    <- paste(myLab.WaterTemp,"(Discrete)",sep=" ")
 myLab.Discrete.AirTemp      <- paste(myLab.AirTemp,"(Discrete)",sep=" ")
 myLab.Discrete.WaterP       <- paste(myLab.WaterP,"(Discrete)",sep=" ")
 myLab.Discrete.AirBP        <- paste(myLab.AirBP,"(Discrete)",sep=" ")
-myLab.Discrete.WaterLevel   <- paste(myLab.WaterLevel,"(Discrete)",sep=" ")
+myLab.Discrete.SensorDepth   <- paste(myLab.SensorDepth,"(Discrete)",sep=" ")
 myLab.Discrete.Discharge    <- paste(myLab.Discharge,"(Discrete)",sep=" ")
 myName.Discrete.Cond       <- paste(myPrefix.Discrete,myName.Cond,sep=".")
 myName.Discrete.DO         <- paste(myPrefix.Discrete,myName.DO,sep=".")
@@ -115,6 +115,15 @@ myName.Discrete.pH         <- paste(myPrefix.Discrete,myName.pH,sep=".")
 myName.Discrete.Turbidity  <- paste(myPrefix.Discrete,myName.Turbidity,sep=".")
 myName.Discrete.Chlorophylla <- paste(myPrefix.Discrete,myName.Chlorophylla,sep=".")
 myName.Discrete.GageHeight <- paste(myPrefix.Discrete,myName.GageHeight,sep=".")
+
+myLab.Discrete.Cond       <- paste(myLab.Discrete,myName.Cond,sep=".")
+myLab.Discrete.DO         <- paste(myLab.Discrete,myName.DO,sep=".")
+myLab.Discrete.pH         <- paste(myLab.Discrete,myName.pH,sep=".")
+myLab.Discrete.Turbidity  <- paste(myLab.Discrete,myName.Turbidity,sep=".")
+myLab.Discrete.Chlorophylla <- paste(myLab.Discrete,myName.Chlorophylla,sep=".")
+myLab.Discrete.GageHeight <- paste(myv.Discrete,myName.GageHeight,sep=".")
+
+
 
 #####################################################################
 # Automated QC stuff
@@ -128,18 +137,18 @@ myDataQuality.Aggregated  <- "Aggregated"
 #####################################################################
 
 # Data Fields
-myNames.DataFields <- c(myName.WaterTemp,myName.AirTemp,myName.WaterP,myName.AirBP,myName.WaterLevel,myName.Discharge
+myNames.DataFields <- c(myName.WaterTemp,myName.AirTemp,myName.WaterP,myName.AirBP,myName.SensorDepth,myName.Discharge
                         ,myName.Discrete.WaterTemp,myName.Discrete.AirTemp,myName.Discrete.WaterP,myName.Discrete.AirBP,
-                        myName.Discrete.WaterLevel,myName.Discrete.Discharge, myName.Discrete.Cond
+                        myName.Discrete.SensorDepth,myName.Discrete.Discharge, myName.Discrete.Cond
                         , myName.Discrete.DO
                         , myName.Discrete.pH
                         , myName.Discrete.Turbidity
                         , myName.Discrete.Chlorophylla
                         , myName.Discrete.GageHeight)
 
-myNames.DataFields.Lab <- c(myLab.WaterTemp,myLab.AirTemp,myLab.WaterP,myLab.AirBP,myLab.WaterLevel,myLab.Discharge
+myNames.DataFields.Lab <- c(myLab.WaterTemp,myLab.AirTemp,myLab.WaterP,myLab.AirBP,myLab.SensorDepth,myLab.Discharge
                             ,myLab.Discrete.WaterTemp,myLab.Discrete.AirTemp,myLab.Discrete.WaterP,myLab.Discrete.AirBP,
-                            myLab.Discrete.WaterLevel,myLab.Discrete.Discharge, myLab.Discrete.Cond
+                            myLab.Discrete.SensorDepth,myLab.Discrete.Discharge, myLab.Discrete.Cond
                             , myLab.Discrete.DO
                             , myLab.Discrete.pH
                             , myLab.Discrete.Turbidity
@@ -151,9 +160,9 @@ myNames.DataFields.Col <- c("blue","green","gray","gray","black","brown")
 # Name Order (change order below to change order in output file)
 #
 myNames.Order <- c(myName.SiteID,myName.Date,myName.Time,myName.DateTime,myName.WaterTemp,myName.LoggerID.Air,myName.RowID.Air
-                   ,myName.AirTemp,myName.WaterP,myName.AirBP,myName.WaterLevel,myName.LoggerID.Water,myName.RowID.Water,myName.Discharge
+                   ,myName.AirTemp,myName.WaterP,myName.AirBP,myName.SensorDepth,myName.LoggerID.Water,myName.RowID.Water,myName.Discharge
                    ,myName.Discrete.WaterTemp,myName.Discrete.AirTemp,myName.Discrete.WaterP,myName.Discrete.AirBP
-                   ,myName.Discrete.WaterLevel,myName.Discrete.Discharge, myName.Discrete.Cond
+                   ,myName.Discrete.SensorDepth,myName.Discrete.Discharge, myName.Discrete.Cond
                    , myName.Discrete.DO
                    , myName.Discrete.pH
                    , myName.Discrete.Turbidity
@@ -188,8 +197,8 @@ myThresh.Gross.Fail.Hi.WaterP     <- 17
 myThresh.Gross.Fail.Lo.WaterP     <- 11
 myThresh.Gross.Fail.Hi.AirBP      <- 17
 myThresh.Gross.Fail.Lo.AirBP      <- 11
-myThresh.Gross.Fail.Hi.WaterLevel <- 6    # no longer used (only check for negative values for WaterLevel)
-myThresh.Gross.Fail.Lo.WaterLevel <- -1   # no longer used (only check for negative values for WaterLevel)
+myThresh.Gross.Fail.Hi.SensorDepth <- 6    # no longer used (only check for negative values for SensorDepth)
+myThresh.Gross.Fail.Lo.SensorDepth <- -1   # no longer used (only check for negative values for SensorDepth)
 myThresh.Gross.Fail.Hi.Discharge  <- 10^5 #dependant upon stream size (only checkf or negative values)
 myThresh.Gross.Fail.Lo.Discharge  <- -1   #dependant upon stream size
 myThresh.Gross.Fail.Hi.Cond       <- 1500
@@ -214,8 +223,8 @@ myThresh.Gross.Suspect.Hi.WaterP     <- 16
 myThresh.Gross.Suspect.Lo.WaterP     <- 12
 myThresh.Gross.Suspect.Hi.AirBP      <- 16
 myThresh.Gross.Suspect.Lo.AirBP      <- 12
-myThresh.Gross.Suspect.Hi.WaterLevel <- 5    # no longer used (only check for negative values for WaterLevel)
-myThresh.Gross.Suspect.Lo.WaterLevel <- 0    # no longer used (only check for negative values for WaterLevel)
+myThresh.Gross.Suspect.Hi.SensorDepth <- 5    # no longer used (only check for negative values for SensorDepth)
+myThresh.Gross.Suspect.Lo.SensorDepth <- 0    # no longer used (only check for negative values for SensorDepth)
 myThresh.Gross.Suspect.Hi.Discharge  <- 10^3 #dependant upon stream size (only checkf or negative values
 myThresh.Gross.Suspect.Lo.Discharge  <- -1   #dependant upon stream size
 myThresh.Gross.Suspect.Hi.Cond       <- 1200
@@ -240,8 +249,8 @@ myThresh.Spike.Hi.WaterP      <- 5
 myThresh.Spike.Lo.WaterP      <- 3
 myThresh.Spike.Hi.AirBP       <- 5
 myThresh.Spike.Lo.AirBP       <- 3
-myThresh.Spike.Hi.WaterLevel  <- 5
-myThresh.Spike.Lo.WaterLevel  <- 3
+myThresh.Spike.Hi.SensorDepth  <- 5
+myThresh.Spike.Lo.SensorDepth  <- 3
 myThresh.Spike.Hi.Discharge   <- 10^4 #dependant upon stream size
 myThresh.Spike.Lo.Discharge   <- 10^3 #dependant upon stream size
 myThresh.Spike.Hi.Cond       <- 10
@@ -268,8 +277,8 @@ myThresh.RoC.SD.number.WaterP     <- myDefault.RoC.SD.number
 myThresh.RoC.SD.period.WaterP     <- myDefault.RoC.SD.period
 myThresh.RoC.SD.number.AirBP      <- myDefault.RoC.SD.number
 myThresh.RoC.SD.period.AirBP      <- myDefault.RoC.SD.period
-myThresh.RoC.SD.number.WaterLevel <- myDefault.RoC.SD.number
-myThresh.RoC.SD.period.WaterLevel <- myDefault.RoC.SD.period
+myThresh.RoC.SD.number.SensorDepth <- myDefault.RoC.SD.number
+myThresh.RoC.SD.period.SensorDepth <- myDefault.RoC.SD.period
 myThresh.RoC.SD.number.Discharge  <- myDefault.RoC.SD.number
 myThresh.RoC.SD.period.Discharge  <- myDefault.RoC.SD.period
 myThresh.RoC.SD.number.Cond       <- myDefault.RoC.SD.number
@@ -302,9 +311,9 @@ myThresh.Flat.Tolerance.WaterP      <- 0.001
 myThresh.Flat.Hi.AirBP              <- myDefault.Flat.Hi
 myThresh.Flat.Lo.AirBP              <- myDefault.Flat.Lo
 myThresh.Flat.Tolerance.AirBP       <- 0.001
-myThresh.Flat.Hi.WaterLevel         <- myDefault.Flat.Hi * 2
-myThresh.Flat.Lo.WaterLevel         <- myDefault.Flat.Lo * 2
-myThresh.Flat.Tolerance.WaterLevel  <- 0.0
+myThresh.Flat.Hi.SensorDepth         <- myDefault.Flat.Hi * 2
+myThresh.Flat.Lo.SensorDepth         <- myDefault.Flat.Lo * 2
+myThresh.Flat.Tolerance.SensorDepth  <- 0.0
 myThresh.Flat.Hi.Discharge          <- myDefault.Flat.Hi * 2
 myThresh.Flat.Lo.Discharge          <- myDefault.Flat.Lo * 2
 myThresh.Flat.Tolerance.Discharge   <- 0.01
@@ -329,7 +338,7 @@ myThresh.Flat.MaxComp     <- max(myThresh.Flat.Hi.WaterTemp
                                  ,myThresh.Flat.Hi.AirTemp
                                  ,myThresh.Flat.Hi.WaterP
                                  ,myThresh.Flat.Hi.AirBP
-                                 ,myThresh.Flat.Hi.WaterLevel
+                                 ,myThresh.Flat.Hi.SensorDepth
                                  ,myThresh.Flat.Hi.Discharge
                                  , myThresh.Flat.Hi.Cond
                                  , myThresh.Flat.Hi.DO
@@ -351,7 +360,7 @@ myName.Flag.WaterTemp   <- paste(myName.Flag,myName.WaterTemp,sep=".")
 myName.Flag.AirTemp     <- paste(myName.Flag,myName.AirTemp,sep=".")
 myName.Flag.WaterP      <- paste(myName.Flag,myName.WaterP,sep=".")
 myName.Flag.AirBP       <- paste(myName.Flag,myName.AirBP,sep=".")
-myName.Flag.WaterLevel  <- paste(myName.Flag,myName.WaterLevel,sep=".")
+myName.Flag.SensorDepth  <- paste(myName.Flag,myName.SensorDepth,sep=".")
 myName.Flag.Discharge   <- paste(myName.Flag,myName.Discharge,sep=".")
 myName.Flag.Cond       <- paste(myName.Flag,myName.Cond,sep=".")
 myName.Flag.DO         <- paste(myName.Flag,myName.DO,sep=".")
@@ -368,7 +377,7 @@ myNames.QCCalcs <- c("SD.Time","SD","SDxN",paste("n",1:myThresh.Flat.MaxComp,sep
 # Exceedance values for stats (default to Gross-Suspect-Hi value)
 myExceed.WaterTemp  <- myThresh.Gross.Suspect.Hi.WaterTemp
 myExceed.AirTemp    <- myThresh.Gross.Suspect.Hi.AirTemp
-myExceed.WaterLevel <- myThresh.Gross.Suspect.Hi.WaterLevel
+myExceed.SensorDepth <- myThresh.Gross.Suspect.Hi.SensorDepth
 
 #####################################################################
 # Date and Time Formats

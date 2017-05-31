@@ -127,7 +127,7 @@ fun.GageData <- function(fun.myData.SiteID
     # can put in multipe and it only runs on those present
     data.myGage <- renameNWISColumns(data.myGage
                       ,p00060=myName.Discharge
-                      ,p00065=myName.WaterLevel
+                      ,p00065=myName.GageHeight
                       ,p00010=myName.WaterTemp
                       ,p00020=myName.AirTemp
                       ,p00040="pH"

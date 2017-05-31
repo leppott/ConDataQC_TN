@@ -141,7 +141,7 @@ fun.Stats <- function(fun.myData.SiteID
   ## Flow (WaterLevel and Discharge)
   ## Nothing on Pressure (used to calculate waterlevel)
   # future add pH, Cond, etc from USGS gages
-  myFields.Data       <- c(myName.WaterTemp, myName.AirTemp, myName.WaterLevel
+  myFields.Data       <- c(myName.WaterTemp, myName.AirTemp, myName.SensorDepth
                            ,myName.Discharge, myName.Cond, myName.DO, myName.pH
                            ,myName.Turbidity, myName.Chlorophylla, myName.GageHeight)
   myFields.Data.Flags <- paste0(myName.Flag,".",myFields.Data)

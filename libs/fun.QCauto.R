@@ -355,25 +355,25 @@ fun.QCauto <- function() {##FUN.fun.QCauto.START
                                   ,myThresh.Flat.Lo.AirTemp
                                   ,myThresh.Flat.Tolerance.AirTemp)
     # 6.3. WaterBP
-    myMsg.data <- "WaterBP"
+    myMsg.data <- "WaterP"
     myMsg <- paste("WORKING (QC Tests and Flags - ",myMsg.data,")",sep="")
     myItems.Complete <- myItems.Complete + 1
     myItems.Log[intCounter,2] <- myMsg
     fun.Msg.Status(myMsg, intCounter, intItems.Total, strFile)
     flush.console()
     data.import <- fun.CalcQCStats(data.import
-                                  ,myName.WaterBP
-                                  ,myThresh.Gross.Fail.Hi.WaterBP
-                                  ,myThresh.Gross.Fail.Lo.WaterBP
-                                  ,myThresh.Gross.Suspect.Hi.WaterBP
-                                  ,myThresh.Gross.Suspect.Lo.WaterBP
-                                  ,myThresh.Spike.Hi.WaterBP
-                                  ,myThresh.Spike.Lo.WaterBP
-                                  ,myThresh.Roc.SD.period.WaterBP
-                                  ,myThresh.RoC.SD.number.WaterBP
-                                  ,myThresh.Flat.Hi.WaterBP
-                                  ,myThresh.Flat.Lo.WaterBP
-                                  ,myThresh.Flat.Tolerance.WaterBP)
+                                  ,myName.WaterP
+                                  ,myThresh.Gross.Fail.Hi.WaterP
+                                  ,myThresh.Gross.Fail.Lo.WaterP
+                                  ,myThresh.Gross.Suspect.Hi.WaterP
+                                  ,myThresh.Gross.Suspect.Lo.WaterP
+                                  ,myThresh.Spike.Hi.WaterP
+                                  ,myThresh.Spike.Lo.WaterP
+                                  ,myThresh.Roc.SD.period.WaterP
+                                  ,myThresh.RoC.SD.number.WaterP
+                                  ,myThresh.Flat.Hi.WaterP
+                                  ,myThresh.Flat.Lo.WaterP
+                                  ,myThresh.Flat.Tolerance.WaterP)
     # 6.4. AirBP
     myMsg.data <- "AirBP"
     myMsg <- paste("WORKING (QC Tests and Flags - ",myMsg.data,")",sep="")
@@ -394,26 +394,26 @@ fun.QCauto <- function() {##FUN.fun.QCauto.START
                                   ,myThresh.Flat.Hi.AirBP
                                   ,myThresh.Flat.Lo.AirBP
                                   ,myThresh.Flat.Tolerance.AirBP)
-    # 6.5. WaterLevel
-    myMsg.data <- "WaterLevel"
+    # 6.5. SensorDepth
+    myMsg.data <- "SensorDepth"
     myMsg <- paste("WORKING (QC Tests and Flags - ",myMsg.data,")",sep="")
     myItems.Complete <- myItems.Complete + 1
     myItems.Log[intCounter,2] <- myMsg
     fun.Msg.Status(myMsg, intCounter, intItems.Total, strFile)
     flush.console()
     data.import <- fun.CalcQCStats(data.import
-                                  ,myName.WaterLevel
-                                  ,myThresh.Gross.Fail.Hi.WaterLevel
-                                  ,myThresh.Gross.Fail.Lo.WaterLevel
-                                  ,myThresh.Gross.Suspect.Hi.WaterLevel
-                                  ,myThresh.Gross.Suspect.Lo.WaterLevel
-                                  ,myThresh.Spike.Hi.WaterLevel
-                                  ,myThresh.Spike.Lo.WaterLevel
-                                  ,myThresh.Roc.SD.period.WaterLevel
-                                  ,myThresh.RoC.SD.number.WaterLevel
-                                  ,myThresh.Flat.Hi.WaterLevel
-                                  ,myThresh.Flat.Lo.WaterLevel
-                                  ,myThresh.Flat.Tolerance.WaterLevel)
+                                  ,myName.SensorDepth
+                                  ,myThresh.Gross.Fail.Hi.SensorDepth
+                                  ,myThresh.Gross.Fail.Lo.SensorDepth
+                                  ,myThresh.Gross.Suspect.Hi.SensorDepth
+                                  ,myThresh.Gross.Suspect.Lo.SensorDepth
+                                  ,myThresh.Spike.Hi.SensorDepth
+                                  ,myThresh.Spike.Lo.SensorDepth
+                                  ,myThresh.Roc.SD.period.SensorDepth
+                                  ,myThresh.RoC.SD.number.SensorDepth
+                                  ,myThresh.Flat.Hi.SensorDepth
+                                  ,myThresh.Flat.Lo.SensorDepth
+                                  ,myThresh.Flat.Tolerance.SensorDepth)
     #
     #############################
     # Names of columns for QC Calculations and Tests with Flags for each data column present
@@ -474,18 +474,18 @@ fun.QCauto <- function() {##FUN.fun.QCauto.START
 # # ######################################################################
 # # # QC
 fun.data.import                 <- data.import
-fun.myField.Data                <- myName.WaterLevel
-fun.myThresh.Gross.Fail.Hi      <- myThresh.Gross.Fail.Hi.WaterLevel
-fun.myThresh.Gross.Fail.Lo      <- myThresh.Gross.Fail.Lo.WaterLevel
-fun.myThresh.Gross.Suspect.Hi   <- myThresh.Gross.Suspect.Hi.WaterLevel
-fun.myThresh.Gross.Suspect.Lo   <- myThresh.Gross.Suspect.Lo.WaterLevel
-fun.myThresh.Spike.Hi           <- myThresh.Spike.Hi.WaterLevel
-fun.myThresh.Spike.Lo           <- myThresh.Spike.Lo.WaterLevel
-fun.myThresh.Roc.SD.period      <- myThresh.Roc.SD.period.WaterLevel
-fun.myThresh.RoC.SD.number      <- myThresh.RoC.SD.number.WaterLevel
-fun.myThresh.Flat.Hi            <- myThresh.Flat.Hi.WaterLevel
-fun.myThresh.Flat.Lo            <- myThresh.Flat.Lo.WaterLevel
-fun.myThresh.Flat.Tolerance     <- myThresh.Flat.Tolerance.WaterLevel
+fun.myField.Data                <- myName.SensorDepth
+fun.myThresh.Gross.Fail.Hi      <- myThresh.Gross.Fail.Hi.SensorDepth
+fun.myThresh.Gross.Fail.Lo      <- myThresh.Gross.Fail.Lo.SensorDepth
+fun.myThresh.Gross.Suspect.Hi   <- myThresh.Gross.Suspect.Hi.SensorDepth
+fun.myThresh.Gross.Suspect.Lo   <- myThresh.Gross.Suspect.Lo.SensorDepth
+fun.myThresh.Spike.Hi           <- myThresh.Spike.Hi.SensorDepth
+fun.myThresh.Spike.Lo           <- myThresh.Spike.Lo.SensorDepth
+fun.myThresh.Roc.SD.period      <- myThresh.Roc.SD.period.SensorDepth
+fun.myThresh.RoC.SD.number      <- myThresh.RoC.SD.number.SensorDepth
+fun.myThresh.Flat.Hi            <- myThresh.Flat.Hi.SensorDepth
+fun.myThresh.Flat.Lo            <- myThresh.Flat.Lo.SensorDepth
+fun.myThresh.Flat.Tolerance     <- myThresh.Flat.Tolerance.SensorDepth
 # # ####################################################################
 
 ########################
