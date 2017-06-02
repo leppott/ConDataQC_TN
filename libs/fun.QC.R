@@ -224,7 +224,7 @@ fun.QC_file <- function(input_file_name,
   # Create Month and Day Field
   #data.import[,"month"] <- as.POSIXlt(data.import$Date)$mon + 1
   #data.import[,"day"]   <- as.POSIXlt(data.import$Date)$mday
-  data.import[,myName.Month] <- as.POSIXlt(data.import$Date)$mon + 1
+  data.import[,myName.Mo] <- as.POSIXlt(data.import$Date)$mon + 1
   data.import[,myName.Day]   <- as.POSIXlt(data.import$Date)$mday
   data.import[,myName.Yr] <- as.POSIXlt(data.import[,myName.Date])$year+1900
 
@@ -365,7 +365,7 @@ fun.QC_file <- function(input_file_name,
                                    ,myThresh.Flat.Tolerance.Discharge)
   }
   # B.6.07. Conductivity
-      myField <- ContData.env$myName.Cond
+      myField <-myName.Cond
       if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
           #
             flog.debug(paste0('Processing data for ', myField))
@@ -378,22 +378,22 @@ fun.QC_file <- function(input_file_name,
             #
             data.import <- fun.CalcQCStats(data.import
                                          ,myField
-                                         ,ContData.env$myThresh.Gross.Fail.Hi.Cond
-                                         ,ContData.env$myThresh.Gross.Fail.Lo.Cond
-                                         ,ContData.env$myThresh.Gross.Suspect.Hi.Cond
-                                         ,ContData.env$myThresh.Gross.Suspect.Lo.Cond
-                                         ,ContData.env$myThresh.Spike.Hi.Cond
-                                         ,ContData.env$myThresh.Spike.Lo.Cond
-                                         ,ContData.env$myThresh.RoC.SD.period.Cond
-                                         ,ContData.env$myThresh.RoC.SD.number.Cond
-                                         ,ContData.env$myThresh.Flat.Hi.Cond
-                                         ,ContData.env$myThresh.Flat.Lo.Cond
-                                         ,ContData.env$myThresh.Flat.Tolerance.Cond)
+                                         ,myThresh.Gross.Fail.Hi.Cond
+                                         ,myThresh.Gross.Fail.Lo.Cond
+                                         ,myThresh.Gross.Suspect.Hi.Cond
+                                         ,myThresh.Gross.Suspect.Lo.Cond
+                                         ,myThresh.Spike.Hi.Cond
+                                         ,myThresh.Spike.Lo.Cond
+                                         ,myThresh.RoC.SD.period.Cond
+                                         ,myThresh.RoC.SD.number.Cond
+                                         ,myThresh.Flat.Hi.Cond
+                                         ,myThresh.Flat.Lo.Cond
+                                         ,myThresh.Flat.Tolerance.Cond)
 
             }##IF.myField.END
       #
         # B.6.08. Dissolved Oxygen
-        myField <- ContData.env$myName.DO
+        myField <-myName.DO
       if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
           #
             flog.debug(paste0('Processing data for ', myField))
@@ -406,21 +406,21 @@ fun.QC_file <- function(input_file_name,
             #
             data.import <- fun.CalcQCStats(data.import
                                            ,myField
-                                           ,ContData.env$myThresh.Gross.Fail.Hi.DO
-                                           ,ContData.env$myThresh.Gross.Fail.Lo.DO
-                                           ,ContData.env$myThresh.Gross.Suspect.Hi.DO
-                                           ,ContData.env$myThresh.Gross.Suspect.Lo.DO
-                                           ,ContData.env$myThresh.Spike.Hi.DO
-                                           ,ContData.env$myThresh.Spike.Lo.DO
-                                           ,ContData.env$myThresh.RoC.SD.period.DO
-                                           ,ContData.env$myThresh.RoC.SD.number.DO
-                                           ,ContData.env$myThresh.Flat.Hi.DO
-                                           ,ContData.env$myThresh.Flat.Lo.DO
-                                           ,ContData.env$myThresh.Flat.Tolerance.DO)
+                                           ,myThresh.Gross.Fail.Hi.DO
+                                           ,myThresh.Gross.Fail.Lo.DO
+                                           ,myThresh.Gross.Suspect.Hi.DO
+                                           ,myThresh.Gross.Suspect.Lo.DO
+                                           ,myThresh.Spike.Hi.DO
+                                           ,myThresh.Spike.Lo.DO
+                                           ,myThresh.RoC.SD.period.DO
+                                           ,myThresh.RoC.SD.number.DO
+                                           ,myThresh.Flat.Hi.DO
+                                           ,myThresh.Flat.Lo.DO
+                                           ,myThresh.Flat.Tolerance.DO)
           }##IF.myField.END
       #
         # B.6.09. pH
-        myField <- ContData.env$myName.pH
+        myField <-myName.pH
       if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
           #
             flog.debug(paste0('Processing data for ', myField))
@@ -433,21 +433,21 @@ fun.QC_file <- function(input_file_name,
             #
             data.import <- fun.CalcQCStats(data.import
                                            ,myField
-                                           ,ContData.env$myThresh.Gross.Fail.Hi.pH
-                                           ,ContData.env$myThresh.Gross.Fail.Lo.pH
-                                           ,ContData.env$myThresh.Gross.Suspect.Hi.pH
-                                           ,ContData.env$myThresh.Gross.Suspect.Lo.pH
-                                           ,ContData.env$myThresh.Spike.Hi.pH
-                                           ,ContData.env$myThresh.Spike.Lo.pH
-                                           ,ContData.env$myThresh.RoC.SD.period.pH
-                                           ,ContData.env$myThresh.RoC.SD.number.pH
-                                           ,ContData.env$myThresh.Flat.Hi.pH
-                                           ,ContData.env$myThresh.Flat.Lo.pH
-                                           ,ContData.env$myThresh.Flat.Tolerance.pH)
+                                           ,myThresh.Gross.Fail.Hi.pH
+                                           ,myThresh.Gross.Fail.Lo.pH
+                                           ,myThresh.Gross.Suspect.Hi.pH
+                                           ,myThresh.Gross.Suspect.Lo.pH
+                                           ,myThresh.Spike.Hi.pH
+                                           ,myThresh.Spike.Lo.pH
+                                           ,myThresh.RoC.SD.period.pH
+                                           ,myThresh.RoC.SD.number.pH
+                                           ,myThresh.Flat.Hi.pH
+                                           ,myThresh.Flat.Lo.pH
+                                           ,myThresh.Flat.Tolerance.pH)
           }##IF.myField.END
       #
         # B.6.10. Turbidity
-        myField <- ContData.env$myName.Turbidity
+        myField <-myName.Turbidity
       if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
           #
             flog.debug(paste0('Processing data for ', myField))
@@ -460,21 +460,21 @@ fun.QC_file <- function(input_file_name,
             #
             data.import <- fun.CalcQCStats(data.import
                                            ,myField
-                                           ,ContData.env$myThresh.Gross.Fail.Hi.Turbidity
-                                           ,ContData.env$myThresh.Gross.Fail.Lo.Turbidity
-                                           ,ContData.env$myThresh.Gross.Suspect.Hi.Turbidity
-                                           ,ContData.env$myThresh.Gross.Suspect.Lo.Turbidity
-                                           ,ContData.env$myThresh.Spike.Hi.Turbidity
-                                           ,ContData.env$myThresh.Spike.Lo.Turbidity
-                                           ,ContData.env$myThresh.RoC.SD.period.Turbidity
-                                           ,ContData.env$myThresh.RoC.SD.number.Turbidity
-                                           ,ContData.env$myThresh.Flat.Hi.Turbidity
-                                           ,ContData.env$myThresh.Flat.Lo.Turbidity
-                                           ,ContData.env$myThresh.Flat.Tolerance.Turbidity)
+                                           ,myThresh.Gross.Fail.Hi.Turbidity
+                                           ,myThresh.Gross.Fail.Lo.Turbidity
+                                           ,myThresh.Gross.Suspect.Hi.Turbidity
+                                           ,myThresh.Gross.Suspect.Lo.Turbidity
+                                           ,myThresh.Spike.Hi.Turbidity
+                                           ,myThresh.Spike.Lo.Turbidity
+                                           ,myThresh.RoC.SD.period.Turbidity
+                                           ,myThresh.RoC.SD.number.Turbidity
+                                           ,myThresh.Flat.Hi.Turbidity
+                                           ,myThresh.Flat.Lo.Turbidity
+                                           ,myThresh.Flat.Tolerance.Turbidity)
           }##IF.myField.END
       #
         # B.6.11. Chlorophyll a
-        myField <- ContData.env$myName.Chlorophylla
+        myField <-myName.Chlorophylla
       if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
           #
             flog.debug(paste0('Processing data for ', myField))
@@ -487,17 +487,17 @@ fun.QC_file <- function(input_file_name,
             #
             data.import <- fun.CalcQCStats(data.import
                                            ,myField
-                                           ,ContData.env$myThresh.Gross.Fail.Hi.Chlorophylla
-                                           ,ContData.env$myThresh.Gross.Fail.Lo.Chlorophylla
-                                           ,ContData.env$myThresh.Gross.Suspect.Hi.Chlorophylla
-                                           ,ContData.env$myThresh.Gross.Suspect.Lo.Chlorophylla
-                                           ,ContData.env$myThresh.Spike.Hi.Chlorophylla
-                                           ,ContData.env$myThresh.Spike.Lo.Chlorophylla
-                                           ,ContData.env$myThresh.RoC.SD.period.Chlorophylla
-                                           ,ContData.env$myThresh.RoC.SD.number.Chlorophylla
-                                           ,ContData.env$myThresh.Flat.Hi.Chlorophylla
-                                           ,ContData.env$myThresh.Flat.Lo.Chlorophylla
-                                           ,ContData.env$myThresh.Flat.Tolerance.Chlorophylla)
+                                           ,myThresh.Gross.Fail.Hi.Chlorophylla
+                                           ,myThresh.Gross.Fail.Lo.Chlorophylla
+                                           ,myThresh.Gross.Suspect.Hi.Chlorophylla
+                                           ,myThresh.Gross.Suspect.Lo.Chlorophylla
+                                           ,myThresh.Spike.Hi.Chlorophylla
+                                           ,myThresh.Spike.Lo.Chlorophylla
+                                           ,myThresh.RoC.SD.period.Chlorophylla
+                                           ,myThresh.RoC.SD.number.Chlorophylla
+                                           ,myThresh.Flat.Hi.Chlorophylla
+                                           ,myThresh.Flat.Lo.Chlorophylla
+                                           ,myThresh.Flat.Tolerance.Chlorophylla)
           }##IF.myField.END
   #############################
   #
@@ -940,7 +940,7 @@ fun.QC <- function(fun.myData.SiteID
                                                                       ,format=myFormat,usetz=FALSE)
 
     # Create Month and Day Field
-    data.import[,myName.Month] <- as.POSIXlt(data.import$Date)$mon + 1
+    data.import[,myName.Mo] <- as.POSIXlt(data.import$Date)$mon + 1
     data.import[,myName.Day]   <- as.POSIXlt(data.import$Date)$mday
     #data.import[,myName.Day] <- as.POSIXlt(data.import[,myName.Date])$mday
     data.import[,myName.Yr] <- as.POSIXlt(data.import[,myName.Date])$year+1900
@@ -1082,7 +1082,7 @@ fun.QC <- function(fun.myData.SiteID
                                      ,myThresh.Flat.Tolerance.Discharge)
     }
     # B.6.07. Conductivity
-    myField <- ContData.env$myName.Cond
+    myField <-myName.Cond
     if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
       #
       flog.debug(paste0('Processing data for ', myField))
@@ -1095,22 +1095,22 @@ fun.QC <- function(fun.myData.SiteID
       #
       data.import <- fun.CalcQCStats(data.import
                                      ,myField
-                                     ,ContData.env$myThresh.Gross.Fail.Hi.Cond
-                                     ,ContData.env$myThresh.Gross.Fail.Lo.Cond
-                                     ,ContData.env$myThresh.Gross.Suspect.Hi.Cond
-                                     ,ContData.env$myThresh.Gross.Suspect.Lo.Cond
-                                     ,ContData.env$myThresh.Spike.Hi.Cond
-                                     ,ContData.env$myThresh.Spike.Lo.Cond
-                                     ,ContData.env$myThresh.RoC.SD.period.Cond
-                                     ,ContData.env$myThresh.RoC.SD.number.Cond
-                                     ,ContData.env$myThresh.Flat.Hi.Cond
-                                     ,ContData.env$myThresh.Flat.Lo.Cond
-                                     ,ContData.env$myThresh.Flat.Tolerance.Cond)
+                                     ,myThresh.Gross.Fail.Hi.Cond
+                                     ,myThresh.Gross.Fail.Lo.Cond
+                                     ,myThresh.Gross.Suspect.Hi.Cond
+                                     ,myThresh.Gross.Suspect.Lo.Cond
+                                     ,myThresh.Spike.Hi.Cond
+                                     ,myThresh.Spike.Lo.Cond
+                                     ,myThresh.RoC.SD.period.Cond
+                                     ,myThresh.RoC.SD.number.Cond
+                                     ,myThresh.Flat.Hi.Cond
+                                     ,myThresh.Flat.Lo.Cond
+                                     ,myThresh.Flat.Tolerance.Cond)
 
     }##IF.myField.END
     #
     # B.6.08. Dissolved Oxygen
-    myField <- ContData.env$myName.DO
+    myField <-myName.DO
     if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
       #
       flog.debug(paste0('Processing data for ', myField))
@@ -1123,21 +1123,21 @@ fun.QC <- function(fun.myData.SiteID
       #
       data.import <- fun.CalcQCStats(data.import
                                      ,myField
-                                     ,ContData.env$myThresh.Gross.Fail.Hi.DO
-                                     ,ContData.env$myThresh.Gross.Fail.Lo.DO
-                                     ,ContData.env$myThresh.Gross.Suspect.Hi.DO
-                                     ,ContData.env$myThresh.Gross.Suspect.Lo.DO
-                                     ,ContData.env$myThresh.Spike.Hi.DO
-                                     ,ContData.env$myThresh.Spike.Lo.DO
-                                     ,ContData.env$myThresh.RoC.SD.period.DO
-                                     ,ContData.env$myThresh.RoC.SD.number.DO
-                                     ,ContData.env$myThresh.Flat.Hi.DO
-                                     ,ContData.env$myThresh.Flat.Lo.DO
-                                     ,ContData.env$myThresh.Flat.Tolerance.DO)
+                                     ,myThresh.Gross.Fail.Hi.DO
+                                     ,myThresh.Gross.Fail.Lo.DO
+                                     ,myThresh.Gross.Suspect.Hi.DO
+                                     ,myThresh.Gross.Suspect.Lo.DO
+                                     ,myThresh.Spike.Hi.DO
+                                     ,myThresh.Spike.Lo.DO
+                                     ,myThresh.RoC.SD.period.DO
+                                     ,myThresh.RoC.SD.number.DO
+                                     ,myThresh.Flat.Hi.DO
+                                     ,myThresh.Flat.Lo.DO
+                                     ,myThresh.Flat.Tolerance.DO)
     }##IF.myField.END
     #
     # B.6.09. pH
-    myField <- ContData.env$myName.pH
+    myField <-myName.pH
     if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
       #
       flog.debug(paste0('Processing data for ', myField))
@@ -1150,21 +1150,21 @@ fun.QC <- function(fun.myData.SiteID
       #
       data.import <- fun.CalcQCStats(data.import
                                      ,myField
-                                     ,ContData.env$myThresh.Gross.Fail.Hi.pH
-                                     ,ContData.env$myThresh.Gross.Fail.Lo.pH
-                                     ,ContData.env$myThresh.Gross.Suspect.Hi.pH
-                                     ,ContData.env$myThresh.Gross.Suspect.Lo.pH
-                                     ,ContData.env$myThresh.Spike.Hi.pH
-                                     ,ContData.env$myThresh.Spike.Lo.pH
-                                     ,ContData.env$myThresh.RoC.SD.period.pH
-                                     ,ContData.env$myThresh.RoC.SD.number.pH
-                                     ,ContData.env$myThresh.Flat.Hi.pH
-                                     ,ContData.env$myThresh.Flat.Lo.pH
-                                     ,ContData.env$myThresh.Flat.Tolerance.pH)
+                                     ,myThresh.Gross.Fail.Hi.pH
+                                     ,myThresh.Gross.Fail.Lo.pH
+                                     ,myThresh.Gross.Suspect.Hi.pH
+                                     ,myThresh.Gross.Suspect.Lo.pH
+                                     ,myThresh.Spike.Hi.pH
+                                     ,myThresh.Spike.Lo.pH
+                                     ,myThresh.RoC.SD.period.pH
+                                     ,myThresh.RoC.SD.number.pH
+                                     ,myThresh.Flat.Hi.pH
+                                     ,myThresh.Flat.Lo.pH
+                                     ,myThresh.Flat.Tolerance.pH)
     }##IF.myField.END
     #
     # B.6.10. Turbidity
-    myField <- ContData.env$myName.Turbidity
+    myField <-myName.Turbidity
     if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
       #
       flog.debug(paste0('Processing data for ', myField))
@@ -1177,21 +1177,21 @@ fun.QC <- function(fun.myData.SiteID
       #
       data.import <- fun.CalcQCStats(data.import
                                      ,myField
-                                     ,ContData.env$myThresh.Gross.Fail.Hi.Turbidity
-                                     ,ContData.env$myThresh.Gross.Fail.Lo.Turbidity
-                                     ,ContData.env$myThresh.Gross.Suspect.Hi.Turbidity
-                                     ,ContData.env$myThresh.Gross.Suspect.Lo.Turbidity
-                                     ,ContData.env$myThresh.Spike.Hi.Turbidity
-                                     ,ContData.env$myThresh.Spike.Lo.Turbidity
-                                     ,ContData.env$myThresh.RoC.SD.period.Turbidity
-                                     ,ContData.env$myThresh.RoC.SD.number.Turbidity
-                                     ,ContData.env$myThresh.Flat.Hi.Turbidity
-                                     ,ContData.env$myThresh.Flat.Lo.Turbidity
-                                     ,ContData.env$myThresh.Flat.Tolerance.Turbidity)
+                                     ,myThresh.Gross.Fail.Hi.Turbidity
+                                     ,myThresh.Gross.Fail.Lo.Turbidity
+                                     ,myThresh.Gross.Suspect.Hi.Turbidity
+                                     ,myThresh.Gross.Suspect.Lo.Turbidity
+                                     ,myThresh.Spike.Hi.Turbidity
+                                     ,myThresh.Spike.Lo.Turbidity
+                                     ,myThresh.RoC.SD.period.Turbidity
+                                     ,myThresh.RoC.SD.number.Turbidity
+                                     ,myThresh.Flat.Hi.Turbidity
+                                     ,myThresh.Flat.Lo.Turbidity
+                                     ,myThresh.Flat.Tolerance.Turbidity)
     }##IF.myField.END
     #
     # B.6.11. Chlorophyll a
-    myField <- ContData.env$myName.Chlorophylla
+    myField <-myName.Chlorophylla
     if(myField %in% myNames.DataFields.Present==TRUE){##IF.myField.START
       #
       flog.debug(paste0('Processing data for ', myField))
@@ -1204,17 +1204,17 @@ fun.QC <- function(fun.myData.SiteID
       #
       data.import <- fun.CalcQCStats(data.import
                                      ,myField
-                                     ,ContData.env$myThresh.Gross.Fail.Hi.Chlorophylla
-                                     ,ContData.env$myThresh.Gross.Fail.Lo.Chlorophylla
-                                     ,ContData.env$myThresh.Gross.Suspect.Hi.Chlorophylla
-                                     ,ContData.env$myThresh.Gross.Suspect.Lo.Chlorophylla
-                                     ,ContData.env$myThresh.Spike.Hi.Chlorophylla
-                                     ,ContData.env$myThresh.Spike.Lo.Chlorophylla
-                                     ,ContData.env$myThresh.RoC.SD.period.Chlorophylla
-                                     ,ContData.env$myThresh.RoC.SD.number.Chlorophylla
-                                     ,ContData.env$myThresh.Flat.Hi.Chlorophylla
-                                     ,ContData.env$myThresh.Flat.Lo.Chlorophylla
-                                     ,ContData.env$myThresh.Flat.Tolerance.Chlorophylla)
+                                     ,myThresh.Gross.Fail.Hi.Chlorophylla
+                                     ,myThresh.Gross.Fail.Lo.Chlorophylla
+                                     ,myThresh.Gross.Suspect.Hi.Chlorophylla
+                                     ,myThresh.Gross.Suspect.Lo.Chlorophylla
+                                     ,myThresh.Spike.Hi.Chlorophylla
+                                     ,myThresh.Spike.Lo.Chlorophylla
+                                     ,myThresh.RoC.SD.period.Chlorophylla
+                                     ,myThresh.RoC.SD.number.Chlorophylla
+                                     ,myThresh.Flat.Hi.Chlorophylla
+                                     ,myThresh.Flat.Lo.Chlorophylla
+                                     ,myThresh.Flat.Tolerance.Chlorophylla)
     }##IF.myField.END
     #############################
     #
@@ -1646,13 +1646,13 @@ fun.CalcQCStats <- function(fun.data.import
     # removed other data fields (and extra times) before above
     # merge back
     # all fields modified = ?????
-    #Fld.Mod <- c(ContData.env$myName.DateTime, fun.myField.Data)
+    #Fld.Mod <- c(myName.DateTime, fun.myField.Data)
     # get fields added (20170512, add in Flag.Param)
     Fld.Flag.Param <- match(myField, names(fun.data.import))
     Fld.New <- names(fun.data.import.mod)[names(fun.data.import.mod) %in% names(fun.data.import)[-Fld.Flag.Param]==FALSE]
     # merge on date time
-    DF.Return <- merge(fun.data.import[,-Fld.Flag.Param], fun.data.import.mod[,c(ContData.env$myName.DateTime, Fld.New)],
-                       by=ContData.env$myName.DateTime, all.x=TRUE)
+    DF.Return <- merge(fun.data.import[,-Fld.Flag.Param], fun.data.import.mod[,c(myName.DateTime, Fld.New)],
+                       by=myName.DateTime, all.x=TRUE)
   } else {
     DF.Return <- fun.data.import.mod
   }##IF.boo.Offset.END

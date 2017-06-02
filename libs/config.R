@@ -116,12 +116,12 @@ myName.Discrete.Turbidity  <- paste(myPrefix.Discrete,myName.Turbidity,sep=".")
 myName.Discrete.Chlorophylla <- paste(myPrefix.Discrete,myName.Chlorophylla,sep=".")
 myName.Discrete.GageHeight <- paste(myPrefix.Discrete,myName.GageHeight,sep=".")
 
-myLab.Discrete.Cond       <- paste(myLab.Discrete,myName.Cond,sep=".")
-myLab.Discrete.DO         <- paste(myLab.Discrete,myName.DO,sep=".")
-myLab.Discrete.pH         <- paste(myLab.Discrete,myName.pH,sep=".")
-myLab.Discrete.Turbidity  <- paste(myLab.Discrete,myName.Turbidity,sep=".")
-myLab.Discrete.Chlorophylla <- paste(myLab.Discrete,myName.Chlorophylla,sep=".")
-myLab.Discrete.GageHeight <- paste(myv.Discrete,myName.GageHeight,sep=".")
+myLab.Discrete.Cond       <- paste(myPrefix.Discrete,myName.Cond,sep=".")
+myLab.Discrete.DO         <- paste(myPrefix.Discrete,myName.DO,sep=".")
+myLab.Discrete.pH         <- paste(myPrefix.Discrete,myName.pH,sep=".")
+myLab.Discrete.Turbidity  <- paste(myPrefix.Discrete,myName.Turbidity,sep=".")
+myLab.Discrete.Chlorophylla <- paste(myPrefix.Discrete,myName.Chlorophylla,sep=".")
+myLab.Discrete.GageHeight <- paste(myPrefix.Discrete,myName.GageHeight,sep=".")
 
 
 
@@ -332,6 +332,7 @@ myThresh.Flat.Tolerance.Turbidity         <- 0.01
 myThresh.Flat.Hi.Chlorophylla                <- myDefault.Flat.Hi * 2
 myThresh.Flat.Lo.Chlorophylla                <- myDefault.Flat.Lo * 2
 myThresh.Flat.Tolerance.Chlorophylla        <- 0.01
+myThresh.Flat.Hi.GageHeight                <- myDefault.Flat.Hi * 2
 myThresh.Flat.Lo.GageHeight               <- myDefault.Flat.Lo * 2
 myThresh.Flat.Tolerance.GageHeight        <- 0.01
 myThresh.Flat.MaxComp     <- max(myThresh.Flat.Hi.WaterTemp

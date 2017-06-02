@@ -342,7 +342,7 @@ fun.QC.datetime <- function(fun.df){
 # myDataType <- "AW"
 # myFld.Data <- names(myDF)[names(myDF) %in% ContData.env$myNames.DataFields]
 # fun.OffsetCollectionCheck(myDF, myDataType, myFld.Data)
-fun.OffsetCollectionCheck <- function(myDF, myFld.Data, myFld.DateTime=ContData.env$myName.DateTime) {##FUNCTION.fun.OffsetCollectionCheck.START
+fun.OffsetCollectionCheck <- function(myDF, myFld.Data, myFld.DateTime=myName.DateTime) {##FUNCTION.fun.OffsetCollectionCheck.START
   # Return value
   boo.return <- 0 #FALSE, no issue (default)
   # Skip if a single data type
