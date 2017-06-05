@@ -4017,3 +4017,8 @@ DEBUG [2017-04-11 15:31:10] Wrote CSV file again
 	C:\software\Bitnami\djangostack-1.10.5-0\apps\tndec\tndecsite\documents\processed\qc_data/QC_ECO66G12_AirWater_20130426_20130725.csv
 DEBUG [2017-04-11 15:31:10] Finished processing file
 	C:\software\Bitnami\djangostack-1.10.5-0\apps\tndec\tndecsite\documents\processing\rscript_import_folder/ECO66G12_AirWater_20130426_20130725.csv
+DEBUG [2017-06-02 15:34:51] ################################################################################
+DEBUG [2017-06-02 15:34:52] Data Operation = [QCRaw]
+DEBUG [2017-06-02 15:34:52] SiteID = [ECO66G20]
+DEBUG [2017-06-02 15:34:53] Data Type = [AirWater]
+DEBUG [2017-06-02 15:34:54] Data Date Range = [2013-05-03] to [2013-08-12]

@@ -84,7 +84,7 @@ myLab.Date            <- "Date"
 myLab.DateTime        <- "Date"
 myLab.WaterP          <- paste("Pressure, Water (",myUnits.AirBP,")",sep="")
 myLab.AirBP           <- paste("Barometric Pressure, Air (",myUnits.WaterP,")",sep="")
-myLab.SensorDepth      <- paste("Water Level (",myUnits.SensorDepth,")",sep="")
+myLab.SensorDepth      <- paste("Sensor Depth (",myUnits.SensorDepth,")",sep="")
 myLab.Temp.BOTH       <- paste("Temperature (?",myUnits.WaterTemp,")",sep="")
 myLab.Discharge       <- paste("Discharge (ft?/s)")
 myLab.Cond           <- paste0("Conductivity (",sub("\\.","/",myUnits.Cond),")")    #replace "." with "/"

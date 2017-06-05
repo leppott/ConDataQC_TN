@@ -113,7 +113,13 @@ fun.QC_file <- function(input_file_name,
   # 4.3. Add FLAGS
   strCol.Flags <- myNames.Flags[myNames.Cols4Flags %in% colnames(data.import)==TRUE]
   data.import[, strCol.Flags] <- ""
-
+  
+  
+  # Add "User" data fields for TN QC step
+  # 20170605
+  myFlds.UserData <- paste0("User.",myNames.DataFields.Present)
+  data.import[,myFlds.UserData] <- ""
+  
   #
   # 5.  QC Date and Time fields
   #
@@ -561,12 +567,12 @@ fun.QC_file <- function(input_file_name,
 
   # remove columns that are entirely empty
   #
-  data.import <- data.import[, ! apply(data.import, 2, function(x) all(gsub(" ", "", x)=="", na.rm=TRUE))]
+#  data.import <- data.import[, ! apply(data.import, 2, function(x) all(gsub(" ", "", x)=="", na.rm=TRUE))]
 
   # remove some redundant columns to simplify the CSV file
   #
-  remove_columns = c('day', 'month', 'Date', 'Time')
-  data.import <- data.import[, ! names(data.import) %in% remove_columns, drop = F]
+#  remove_columns = c('day', 'month', 'Date', 'Time')
+#  data.import <- data.import[, ! names(data.import) %in% remove_columns, drop = F]
 
   # write the csv file in its final format
   #
@@ -1432,12 +1438,12 @@ fun.CalcQCStats <- function(fun.data.import
   # calculate as separate variable
   #http://stackoverflow.com/questions/8857287/how-to-add-subtract-time-from-a-posixlt-time-while-keeping-its-class-in-r
   # myT will be a POSIXt object
-  myT <- strptime(fun.data.import[,myName.DateTime],format=myFormat.DateTime)
+  myT <- strptime(fun.data.import.mod[,myName.DateTime],format=myFormat.DateTime)
 
   myT$hour <- myT$hour - fun.myThresh.RoC.SD.period
 
   # add back to dataframe
-  fun.data.import[,myField] <- as.character(myT)
+  fun.data.import.mod[,myField] <- as.character(myT)
 
   #
   # variable for following block
@@ -1452,20 +1458,20 @@ fun.CalcQCStats <- function(fun.data.import
   ###################################################
   ## zoo version with rollapply
   #  minimum of 5 records
-  if(nrow(fun.data.import) < 5)
+  if(nrow(fun.data.import.mod) < 5)
   {
     stop(paste0("The data file has less than 5 records. The scripts will not work properly until you have more data."))
   }
 
   # get interval distance (will crash if less than 5 records)
-  myT.diff <- difftime(fun.data.import[5,myName.DateTime],fun.data.import[4,myName.DateTime],units="mins")
+  myT.diff <- difftime(fun.data.import.mod[5,myName.DateTime],fun.data.import.mod[4,myName.DateTime],units="mins")
   myT.diff[[1]]
 
   # convert DateTime to POSIX object (already done above)
-  #myT <- strptime(fun.data.import[,myName.DateTime],format=myFormat.DateTime)
+  #myT <- strptime(fun.data.import.mod[,myName.DateTime],format=myFormat.DateTime)
   # A.2. Use data "as is"
   # create zoo object of data and date/time (use row num instead)
-  zoo.data <- zoo(fun.data.import[,fun.myField.Data], seq(from=1, to=nrow(fun.data.import), by=1))  # works
+  zoo.data <- zoo(fun.data.import.mod[,fun.myField.Data], seq(from=1, to=nrow(fun.data.import.mod), by=1))  # works
   #
   # B. Rolling SD
   # time difference is in minutes and Threshold is in hours
@@ -1476,7 +1482,7 @@ fun.CalcQCStats <- function(fun.data.import
   # +1 is to include the record itself
   RollSD <- rollapply(data=zoo.data, width=RollBy+1, FUN=sd, na.rm=TRUE, fill=NA, align="right")
   # add to data frame
-  fun.data.import[,myField] <- RollSD
+  fun.data.import.mod[,myField] <- RollSD
 
   # clean up
   rm(myT)
@@ -1490,13 +1496,13 @@ fun.CalcQCStats <- function(fun.data.import
   myCalc.2 <- "SDxN"
   myField.1 <- paste(fun.myField.Data,myCalc.1,sep=".")
   myField.2 <- paste(fun.myField.Data,myCalc.2,sep=".")
-  fun.data.import[,myField.2] <- fun.data.import[,myField.1] * fun.myThresh.RoC.SD.number
+  fun.data.import.mod[,myField.2] <- fun.data.import.mod[,myField.1] * fun.myThresh.RoC.SD.number
   #
   # A.4. Calc, Diff (1:5) (5 is default but can be more)
   for (i in 1:myThresh.Flat.MaxComp) {
     myCalc <- paste("n",i,sep=".")
     myField <- paste(fun.myField.Data,myCalc,sep=".")
-    fun.data.import[-(1:i),myField] <- diff(as.numeric(fun.data.import[,fun.myField.Data]),lag=i)
+    fun.data.import.mod[-(1:i),myField] <- diff(as.numeric(fun.data.import.mod[,fun.myField.Data]),lag=i)
     #
   }
 
@@ -1505,18 +1511,18 @@ fun.CalcQCStats <- function(fun.data.import
   myField <- paste(fun.myField.Data,myCalc,sep=".")
   myThresh <- fun.myThresh.Flat.Hi
   # Fields to check
-  myFields.Match <- match(paste(fun.myField.Data,"n",1:myThresh,sep="."), names(fun.data.import))
+  myFields.Match <- match(paste(fun.myField.Data,"n",1:myThresh,sep="."), names(fun.data.import.mod))
   # use rowSums to count the fields
-  fun.data.import[,myField] <- rowSums(abs(fun.data.import[,myFields.Match])<=fun.myThresh.Flat.Tolerance)
+  fun.data.import.mod[,myField] <- rowSums(abs(fun.data.import.mod[,myFields.Match])<=fun.myThresh.Flat.Tolerance)
 
   # A.6. Calc, flat.Lo, count if less than toler
   myCalc <- "flat.Lo"
   myField <- paste(fun.myField.Data,myCalc,sep=".")
   myThresh <- fun.myThresh.Flat.Lo
   # Fields to check
-  myFields.Match <- match(paste(fun.myField.Data,"n",1:myThresh,sep="."), names(fun.data.import))
+  myFields.Match <- match(paste(fun.myField.Data,"n",1:myThresh,sep="."), names(fun.data.import.mod))
   # use rowSums to count the fields
-  fun.data.import[,myField] <- rowSums(abs(fun.data.import[,myFields.Match])<=fun.myThresh.Flat.Tolerance)
+  fun.data.import.mod[,myField] <- rowSums(abs(fun.data.import.mod[,myFields.Match])<=fun.myThresh.Flat.Tolerance)
 
   ## B. Generate Flags based on Calculation Fields
   # B.1. Gross
@@ -1525,36 +1531,36 @@ fun.CalcQCStats <- function(fun.data.import
 
   # Assign Flags
   # default value
-  fun.data.import[,myField] <- myFlagVal.NotEval
+  fun.data.import.mod[,myField] <- myFlagVal.NotEval
   # data is NA then flag = 9 (missing data)
-  fun.data.import[,myField][is.na(fun.data.import[,fun.myField.Data])==TRUE] <- myFlagVal.NoData
+  fun.data.import.mod[,myField][is.na(fun.data.import.mod[,fun.myField.Data])==TRUE] <- myFlagVal.NoData
   # different test for water level, only if negative
 
   if(fun.myField.Data==myName.SensorDepth)
   {
     # data < 0 (i.e., negative) = 4 (fail)
-    fun.data.import[,myField][fun.data.import[,fun.myField.Data] < 0] <- myFlagVal.Fail
+    fun.data.import.mod[,myField][fun.data.import.mod[,fun.myField.Data] < 0] <- myFlagVal.Fail
     # otherwise flag = 1 (pass)
-    fun.data.import[,myField][fun.data.import[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
+    fun.data.import.mod[,myField][fun.data.import.mod[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
   # different test for discharge
   } else if(fun.myField.Data==myName.Discharge)
   {
     # data < 0 (i.e., negative) = 4 (fail)
-    fun.data.import[,myField][fun.data.import[,fun.myField.Data] < 0] <- myFlagVal.Fail
+    fun.data.import.mod[,myField][fun.data.import.mod[,fun.myField.Data] < 0] <- myFlagVal.Fail
     # otherwise flag = 1 (pass)
-    fun.data.import[,myField][fun.data.import[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
+    fun.data.import.mod[,myField][fun.data.import.mod[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
   } else
   {
     # data >= Suspect.Hi then flag = 3 (suspect)
-    fun.data.import[,myField][fun.data.import[,fun.myField.Data] >= fun.myThresh.Gross.Suspect.Hi] <- myFlagVal.Suspect
+    fun.data.import.mod[,myField][fun.data.import.mod[,fun.myField.Data] >= fun.myThresh.Gross.Suspect.Hi] <- myFlagVal.Suspect
     # data <= Suspect.Lo then flag = 3 (Suspect)
-    fun.data.import[,myField][fun.data.import[,fun.myField.Data] <= fun.myThresh.Gross.Suspect.Lo] <- myFlagVal.Suspect
+    fun.data.import.mod[,myField][fun.data.import.mod[,fun.myField.Data] <= fun.myThresh.Gross.Suspect.Lo] <- myFlagVal.Suspect
     # data >= Fail.Hi then flag = 4 (fail)
-    fun.data.import[,myField][fun.data.import[,fun.myField.Data] >= fun.myThresh.Gross.Fail.Hi] <- myFlagVal.Fail
+    fun.data.import.mod[,myField][fun.data.import.mod[,fun.myField.Data] >= fun.myThresh.Gross.Fail.Hi] <- myFlagVal.Fail
     # data <= Fail.Lo then flag = 4 (fail)
-    fun.data.import[,myField][fun.data.import[,fun.myField.Data] <= fun.myThresh.Gross.Fail.Lo] <- myFlagVal.Fail
+    fun.data.import.mod[,myField][fun.data.import.mod[,fun.myField.Data] <= fun.myThresh.Gross.Fail.Lo] <- myFlagVal.Fail
     # otherwise flag = 1 (pass)
-    fun.data.import[,myField][fun.data.import[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
+    fun.data.import.mod[,myField][fun.data.import.mod[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
   }
 
   # B.2. Spike
@@ -1563,15 +1569,15 @@ fun.CalcQCStats <- function(fun.data.import
   myField.Calc.1 <- paste(fun.myField.Data,"n",1,sep=".")
   # Assign Flags
   # default value
-  fun.data.import[,myField] <- myFlagVal.NotEval
+  fun.data.import.mod[,myField] <- myFlagVal.NotEval
   # diff 1 is NA then flag = 9 (missing data)
-  fun.data.import[,myField][is.na(fun.data.import[,myField.Calc.1])==TRUE] <- myFlagVal.NoData
+  fun.data.import.mod[,myField][is.na(fun.data.import.mod[,myField.Calc.1])==TRUE] <- myFlagVal.NoData
   # abs(diff 1) >= spike Lo then flag = 3 (suspect)
-  fun.data.import[,myField][abs(fun.data.import[,myField.Calc.1]) >= fun.myThresh.Spike.Lo] <- myFlagVal.Suspect
+  fun.data.import.mod[,myField][abs(fun.data.import.mod[,myField.Calc.1]) >= fun.myThresh.Spike.Lo] <- myFlagVal.Suspect
   # abs(diff 1) >= spike Hi then flag = 4 (fail)
-  fun.data.import[,myField][abs(fun.data.import[,myField.Calc.1]) >= fun.myThresh.Spike.Hi] <- myFlagVal.Fail
+  fun.data.import.mod[,myField][abs(fun.data.import.mod[,myField.Calc.1]) >= fun.myThresh.Spike.Hi] <- myFlagVal.Fail
   # otherwise flag = 1 (pass)
-  fun.data.import[,myField][fun.data.import[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
+  fun.data.import.mod[,myField][fun.data.import.mod[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
 
   # B.3. RoC
   myQCTest <- "RoC"
@@ -1580,15 +1586,15 @@ fun.CalcQCStats <- function(fun.data.import
   myField.Calc.2 <- paste(fun.myField.Data,"SDxN",sep=".")
   # Assign Flags
   # default value
-  fun.data.import[,myField] <- myFlagVal.NotEval
+  fun.data.import.mod[,myField] <- myFlagVal.NotEval
   # data is NA then flag = 9 (missing data)
-  fun.data.import[,myField][is.na(fun.data.import[,fun.myField.Data])==TRUE] <- myFlagVal.NoData
+  fun.data.import.mod[,myField][is.na(fun.data.import.mod[,fun.myField.Data])==TRUE] <- myFlagVal.NoData
   # sd is NA then flag = 9 (missing data)
-  fun.data.import[,myField][is.na(fun.data.import[,myField.Calc.1])==TRUE] <- myFlagVal.NoData
+  fun.data.import.mod[,myField][is.na(fun.data.import.mod[,myField.Calc.1])==TRUE] <- myFlagVal.NoData
   # diff 1 > SD*N then flag = 3 (suspect)
-  fun.data.import[,myField][abs(fun.data.import[,myField.Calc.1]) > fun.data.import[,myField.Calc.2]] <- myFlagVal.Suspect
+  fun.data.import.mod[,myField][abs(fun.data.import.mod[,myField.Calc.1]) > fun.data.import.mod[,myField.Calc.2]] <- myFlagVal.Suspect
   # otherwise flag = 1 (pass) [no 4/Fail]
-  fun.data.import[,myField][fun.data.import[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
+  fun.data.import.mod[,myField][fun.data.import.mod[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
 
   # B.4. Flat
   myQCTest <- "Flat"
@@ -1596,49 +1602,49 @@ fun.CalcQCStats <- function(fun.data.import
   myField.Calc.1 <- paste(fun.myField.Data,"flat.Hi",sep=".")
   myField.Calc.2 <- paste(fun.myField.Data,"flat.Lo",sep=".")
   # default value
-  fun.data.import[,myField] <- myFlagVal.NotEval
+  fun.data.import.mod[,myField] <- myFlagVal.NotEval
   # Lo >= Thresh.Lo = 3 (suspect)
-  fun.data.import[,myField][fun.data.import[,myField.Calc.2] >= fun.myThresh.Flat.Lo] <- myFlagVal.Suspect
+  fun.data.import.mod[,myField][fun.data.import.mod[,myField.Calc.2] >= fun.myThresh.Flat.Lo] <- myFlagVal.Suspect
   # Hi >= Thresh.Hi = 4 (fail)
-  fun.data.import[,myField][fun.data.import[,myField.Calc.1] >= fun.myThresh.Flat.Hi] <- myFlagVal.Fail
+  fun.data.import.mod[,myField][fun.data.import.mod[,myField.Calc.1] >= fun.myThresh.Flat.Hi] <- myFlagVal.Fail
   # otherwise flag = 1 (pass)
-  fun.data.import[,myField][fun.data.import[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
+  fun.data.import.mod[,myField][fun.data.import.mod[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
 
   # C. Assign Overall Data Flag
   myField <- paste("Flag",fun.myField.Data,sep=".")
 
   #myNames.QCTests
   # get column numbers (match) for QCTest Flags for this data
-  myFields.Match <- match(paste("Flag",myNames.QCTests,fun.myField.Data,sep="."), names(fun.data.import))
+  myFields.Match <- match(paste("Flag",myNames.QCTests,fun.myField.Data,sep="."), names(fun.data.import.mod))
 
   # Conditional rowSums for number of flag fields with specified flags
-  myFlags.Num.Pass    <- rowSums(fun.data.import[,myFields.Match]==myFlagVal.Pass)
-  myFlags.Num.Suspect <- rowSums(fun.data.import[,myFields.Match]==myFlagVal.Suspect )
-  myFlags.Num.Fail    <- rowSums(fun.data.import[,myFields.Match]==myFlagVal.Fail)
-  myFlags.Num.Missing <- rowSums(fun.data.import[,myFields.Match]==myFlagVal.NoData)
-  myFlags.Num.OK      <- rowSums(fun.data.import[,myFields.Match]==myFlagVal.Pass | fun.data.import[,myFields.Match]==myFlagVal.NoData)
+  myFlags.Num.Pass    <- rowSums(fun.data.import.mod[,myFields.Match]==myFlagVal.Pass)
+  myFlags.Num.Suspect <- rowSums(fun.data.import.mod[,myFields.Match]==myFlagVal.Suspect )
+  myFlags.Num.Fail    <- rowSums(fun.data.import.mod[,myFields.Match]==myFlagVal.Fail)
+  myFlags.Num.Missing <- rowSums(fun.data.import.mod[,myFields.Match]==myFlagVal.NoData)
+  myFlags.Num.OK      <- rowSums(fun.data.import.mod[,myFields.Match]==myFlagVal.Pass | fun.data.import.mod[,myFields.Match]==myFlagVal.NoData)
 
   # Assign
   # default value
-  fun.data.import[,myField] <- myFlagVal.NotEval
+  fun.data.import.mod[,myField] <- myFlagVal.NotEval
   # any QC Test flags = 3 then flag = 3 (suspect)
-  fun.data.import[,myField][myFlags.Num.Suspect > 0] <- myFlagVal.Suspect
+  fun.data.import.mod[,myField][myFlags.Num.Suspect > 0] <- myFlagVal.Suspect
   # any QC Test flags = 4 then flag = 4 (fail)
-  fun.data.import[,myField][myFlags.Num.Fail > 0] <- myFlagVal.Fail
+  fun.data.import.mod[,myField][myFlags.Num.Fail > 0] <- myFlagVal.Fail
   # all QC Test flags = 1 then flag = 1 (pass)
-  fun.data.import[,myField][myFlags.Num.Pass == length(myNames.QCTests)] <- myFlagVal.Pass
+  fun.data.import.mod[,myField][myFlags.Num.Pass == length(myNames.QCTests)] <- myFlagVal.Pass
   # all QC Test flags = 1 or 9 then flag = 1 (pass)
-  fun.data.import[,myField][myFlags.Num.OK == length(myNames.QCTests)] <- myFlagVal.Pass
-    #fun.data.import[,myField][fun.data.import[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
+  fun.data.import.mod[,myField][myFlags.Num.OK == length(myNames.QCTests)] <- myFlagVal.Pass
+    #fun.data.import.mod[,myField][fun.data.import.mod[,myField]==myFlagVal.NotEval] <- myFlagVal.Pass
   # data is NA then flag = 9 (missing data)
-  fun.data.import[,myField][is.na(fun.data.import[,fun.myField.Data])==TRUE] <- myFlagVal.NoData
+  fun.data.import.mod[,myField][is.na(fun.data.import.mod[,fun.myField.Data])==TRUE] <- myFlagVal.NoData
 
   # D. Remove QC Calc fields
   #myNames.QCCalcs <- c("SD.Time","SD","SDxN","n.1","n.2","n.3","n.4","n.5","flat.Lo","flat.Hi")
   # get field column numbers
-  myFields.Match <- match(paste(fun.myField.Data,myNames.QCCalcs,sep="."), names(fun.data.import))
+  myFields.Match <- match(paste(fun.myField.Data,myNames.QCCalcs,sep="."), names(fun.data.import.mod))
   # drop fields from data table
-  fun.data.import <- fun.data.import[,-na.omit(myFields.Match)]
+  fun.data.import.mod <- fun.data.import.mod[,-na.omit(myFields.Match)]
  #~~~~~~~~~~~~~~~~~~~~~~~~~
   # D.2. Offset Timing Fix
   ## Return a merged file if Offset is TRUE
@@ -1656,7 +1662,12 @@ fun.CalcQCStats <- function(fun.data.import
   } else {
     DF.Return <- fun.data.import.mod
   }##IF.boo.Offset.END
-
+  #
+  # # 20170605, Add "User" field for Parameter (fun.myField.Data)
+  # ## TN only, for reimporting the file
+  # myFld <- paste0("User.",fun.myField.Data)
+  # DF.Return[,myFld] <- ""
+  #
   # function output
   #return(fun.data.import)
   return(DF.Return)

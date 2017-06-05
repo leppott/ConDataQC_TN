@@ -16,7 +16,7 @@ output: word_document
   
   cat(paste("**SiteID:** ",strFile.SiteID,"\n\n",sep=""))
   
-  cat(paste("**Period of Record, Requested:** ",fun.myData.DateRange.Start," to ",fun.myData.DateRange.End,sep="",collapse="\n\n"))
+  cat(paste("**Period of Record, Requested:** ",as.Date(fun.myData.DateRange.Start,"%Y%m%d")," to ",as.Date(fun.myData.DateRange.End,"%Y%m%d"),sep="",collapse="\n\n"))
        
   myNumRecords <- nrow(data.import) # 20170228, mod from records 10 and 11 to half way point
   
@@ -115,8 +115,8 @@ output: word_document
     # mask error, 20170307
     
     # Missing Dates
-    myDateRange.Target <- seq(as.Date(fun.myData.DateRange.Start)
-                              ,as.Date(fun.myData.DateRange.End)
+    myDateRange.Target <- seq(as.Date(fun.myData.DateRange.Start,"%Y%m%d")
+                              ,as.Date(fun.myData.DateRange.End,"%Y%m%d")
                               ,by="day")
     myDateRange.Data <- seq(as.Date(min(data.import[,myName.Date]))
                             ,as.Date(max(data.import[,myName.Date]))
