@@ -543,12 +543,44 @@ fun.QC_file <- function(input_file_name,
     export_folder
   )
 
-  ##################
+  #~~~~~~~~~~~~~~~~~~
   #
   # Format final CSV file
   #
-  ####################
-
+  #~~~~~~~~~~~~~~~~~~
+  #
+  # 20170613, Reorder columns  
+  # Column Order ####
+  # Data Fields (only 5, not all, will have to edit for pH, DO, etc)
+  ColOrder.DataFields <- c(myName.WaterP
+                           ,myName.WaterTemp
+                           ,myName.AirBP
+                           ,myName.SensorDepth
+                           ,myName.AirTemp)
+  # Flags
+  Flags.QCTests <- paste(myName.Flag,c("Gross","RoC","Spike","Flat"),sep=".")
+  # Final Order
+  ## apply creates all combinations of 2 vectors
+  ColOrder.Final <- c(myName.SiteID
+                      ,myName.DateTime
+                      ,ColOrder.DataFields
+                      ,myName.RowID.Water
+                      ,paste0("User.",ColOrder.DataFields)
+                      ,"FlagCount"
+                      ,myName.Flag.DateTime
+                      ,paste(myName.Flag,ColOrder.DataFields,sep=".")
+                      ,apply(expand.grid(Flags.QCTests,ColOrder.DataFields), 1, paste, collapse=".")
+  )
+  # Final Cols that appear in data.import
+  ColOrder.Final.T <- ColOrder.Final[ColOrder.Final %in% names(data.import) == TRUE]
+  # Final Cols that *do not* appear in data.import
+  ColOrder.Final.F <- ColOrder.Final[ColOrder.Final %in% names(data.import) == FALSE]
+  # Extra Columns in data.import
+  ColOrder.Final.Extra <- names(data.import)[names(data.import) %in% ColOrder.Final == FALSE]
+  # Col Order
+  data.import <- data.import[,c(ColOrder.Final.T,ColOrder.Final.Extra)]
+  #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  
   # remove all the 'P' (passing) flags from each Flag.* column just to simplify the CSV file
   #
   for(j in names(data.import))
