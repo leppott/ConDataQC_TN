@@ -78,15 +78,15 @@ myName.Chlorophylla   <- paste0("Chlorophylla.",myUnits.pH)
 myName.GageHeight    <- paste0("GageHeight.",myUnits.GageHeight)
 
 ## plot labels
-myLab.WaterTemp       <- paste("Temperature, Water (?",myUnits.WaterTemp,")",sep="")
-myLab.AirTemp         <- paste("Temperature, Air (?",myUnits.AirTemp,")",sep="")
+myLab.WaterTemp       <- paste("Temperature, Water (",myUnits.WaterTemp,")",sep="")
+myLab.AirTemp         <- paste("Temperature, Air (",myUnits.AirTemp,")",sep="")
 myLab.Date            <- "Date"
 myLab.DateTime        <- "Date"
 myLab.WaterP          <- paste("Pressure, Water (",myUnits.AirBP,")",sep="")
 myLab.AirBP           <- paste("Barometric Pressure, Air (",myUnits.WaterP,")",sep="")
 myLab.SensorDepth      <- paste("Sensor Depth (",myUnits.SensorDepth,")",sep="")
-myLab.Temp.BOTH       <- paste("Temperature (?",myUnits.WaterTemp,")",sep="")
-myLab.Discharge       <- paste("Discharge (ft?/s)")
+myLab.Temp.BOTH       <- paste("Temperature (",myUnits.WaterTemp,")",sep="")
+myLab.Discharge       <- paste("Discharge (",sub("\\.","/",myUnits.Discharge),")")
 myLab.Cond           <- paste0("Conductivity (",sub("\\.","/",myUnits.Cond),")")    #replace "." with "/"
 myLab.DO             <- paste0("Dissolved Oxygen (",sub("\\.","/",myUnits.DO),")")  #replace "." with "/"
 myLab.pH             <- paste0("pH (",myUnits.pH,")")
@@ -137,18 +137,38 @@ myDataQuality.Aggregated  <- "Aggregated"
 #####################################################################
 
 # Data Fields
-myNames.DataFields <- c(myName.WaterTemp,myName.AirTemp,myName.WaterP,myName.AirBP,myName.SensorDepth,myName.Discharge
-                        ,myName.Discrete.WaterTemp,myName.Discrete.AirTemp,myName.Discrete.WaterP,myName.Discrete.AirBP,
-                        myName.Discrete.SensorDepth,myName.Discrete.Discharge, myName.Discrete.Cond
+myNames.DataFields <- c(myName.WaterTemp
+                        ,myName.AirTemp
+                        ,myName.WaterP
+                        ,myName.AirBP
+                        ,myName.SensorDepth
+                        ,myName.Discharge
+                        ,myName.Discrete.WaterTemp
+                        ,myName.Discrete.AirTemp
+                        ,myName.Discrete.WaterP
+                        ,myName.Discrete.AirBP
+                        ,myName.Discrete.SensorDepth
+                        ,myName.Discrete.Discharge
+                        , myName.Discrete.Cond
                         , myName.Discrete.DO
                         , myName.Discrete.pH
                         , myName.Discrete.Turbidity
                         , myName.Discrete.Chlorophylla
                         , myName.Discrete.GageHeight)
 
-myNames.DataFields.Lab <- c(myLab.WaterTemp,myLab.AirTemp,myLab.WaterP,myLab.AirBP,myLab.SensorDepth,myLab.Discharge
-                            ,myLab.Discrete.WaterTemp,myLab.Discrete.AirTemp,myLab.Discrete.WaterP,myLab.Discrete.AirBP,
-                            myLab.Discrete.SensorDepth,myLab.Discrete.Discharge, myLab.Discrete.Cond
+myNames.DataFields.Lab <- c(myLab.WaterTemp
+                            ,myLab.AirTemp
+                            ,myLab.WaterP
+                            ,myLab.AirBP
+                            ,myLab.SensorDepth
+                            ,myLab.Discharge
+                            ,myLab.Discrete.WaterTemp
+                            ,myLab.Discrete.AirTemp
+                            ,myLab.Discrete.WaterP
+                            ,myLab.Discrete.AirBP,
+                            myLab.Discrete.SensorDepth
+                            ,myLab.Discrete.Discharge
+                            , myLab.Discrete.Cond
                             , myLab.Discrete.DO
                             , myLab.Discrete.pH
                             , myLab.Discrete.Turbidity
@@ -159,10 +179,27 @@ myNames.DataFields.Col <- c("blue","green","gray","gray","black","brown")
 
 # Name Order (change order below to change order in output file)
 #
-myNames.Order <- c(myName.SiteID,myName.Date,myName.Time,myName.DateTime,myName.WaterTemp,myName.LoggerID.Air,myName.RowID.Air
-                   ,myName.AirTemp,myName.WaterP,myName.AirBP,myName.SensorDepth,myName.LoggerID.Water,myName.RowID.Water,myName.Discharge
-                   ,myName.Discrete.WaterTemp,myName.Discrete.AirTemp,myName.Discrete.WaterP,myName.Discrete.AirBP
-                   ,myName.Discrete.SensorDepth,myName.Discrete.Discharge, myName.Discrete.Cond
+myNames.Order <- c(myName.SiteID
+                   ,myName.Date
+                   ,myName.Time
+                   ,myName.DateTime
+                   ,myName.WaterTemp
+                   ,myName.LoggerID.Air
+                   ,myName.RowID.Air
+                   ,myName.AirTemp
+                   ,myName.WaterP
+                   ,myName.AirBP
+                   ,myName.SensorDepth
+                   ,myName.LoggerID.Water
+                   ,myName.RowID.Water
+                   ,myName.Discharge
+                   ,myName.Discrete.WaterTemp
+                   ,myName.Discrete.AirTemp
+                   ,myName.Discrete.WaterP
+                   ,myName.Discrete.AirBP
+                   ,myName.Discrete.SensorDepth
+                   ,myName.Discrete.Discharge
+                   , myName.Discrete.Cond
                    , myName.Discrete.DO
                    , myName.Discrete.pH
                    , myName.Discrete.Turbidity
