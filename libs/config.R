@@ -228,12 +228,12 @@ myFlagVal.Order    <- c(myFlagVal.Pass, myFlagVal.Suspect, myFlagVal.Fail, myFla
 ## Gross Min/Max, Fail (equipment)
 myThresh.Gross.Fail.Hi.WaterTemp  <- 30
 myThresh.Gross.Fail.Lo.WaterTemp  <- -2
-myThresh.Gross.Fail.Hi.AirTemp    <- 35
+myThresh.Gross.Fail.Hi.AirTemp    <- 38
 myThresh.Gross.Fail.Lo.AirTemp    <- -25
 myThresh.Gross.Fail.Hi.WaterP     <- 17
-myThresh.Gross.Fail.Lo.WaterP     <- 11
-myThresh.Gross.Fail.Hi.AirBP      <- 17
-myThresh.Gross.Fail.Lo.AirBP      <- 11
+myThresh.Gross.Fail.Lo.WaterP     <- 13
+myThresh.Gross.Fail.Hi.AirBP      <- 15
+myThresh.Gross.Fail.Lo.AirBP      <- 13
 myThresh.Gross.Fail.Hi.SensorDepth <- 6    # no longer used (only check for negative values for SensorDepth)
 myThresh.Gross.Fail.Lo.SensorDepth <- -1   # no longer used (only check for negative values for SensorDepth)
 myThresh.Gross.Fail.Hi.Discharge  <- 10^5 #dependant upon stream size (only checkf or negative values)
@@ -253,13 +253,13 @@ myThresh.Gross.Fail.Lo.GageHeight          <- -1
 
 ## Gross Min/Max, Suspect (extreme)
 myThresh.Gross.Suspect.Hi.WaterTemp  <- 25
-myThresh.Gross.Suspect.Lo.WaterTemp  <- -1
-myThresh.Gross.Suspect.Hi.AirTemp    <- 30
-myThresh.Gross.Suspect.Lo.AirTemp    <- -20
-myThresh.Gross.Suspect.Hi.WaterP     <- 16
-myThresh.Gross.Suspect.Lo.WaterP     <- 12
-myThresh.Gross.Suspect.Hi.AirBP      <- 16
-myThresh.Gross.Suspect.Lo.AirBP      <- 12
+myThresh.Gross.Suspect.Lo.WaterTemp  <- -0.1
+myThresh.Gross.Suspect.Hi.AirTemp    <- 35
+myThresh.Gross.Suspect.Lo.AirTemp    <- -23
+myThresh.Gross.Suspect.Hi.WaterP     <- 16.8
+myThresh.Gross.Suspect.Lo.WaterP     <- 13.5
+myThresh.Gross.Suspect.Hi.AirBP      <- 14.8
+myThresh.Gross.Suspect.Lo.AirBP      <- 13.5
 myThresh.Gross.Suspect.Hi.SensorDepth <- 5    # no longer used (only check for negative values for SensorDepth)
 myThresh.Gross.Suspect.Lo.SensorDepth <- 0    # no longer used (only check for negative values for SensorDepth)
 myThresh.Gross.Suspect.Hi.Discharge  <- 10^3 #dependant upon stream size (only checkf or negative values
@@ -278,14 +278,14 @@ myThresh.Gross.Suspect.Hi.GageHeight         <- 10^3
 myThresh.Gross.Suspect.Lo.GageHeight        <- 1
 
 ## Spike thresholds (absolute change)
-myThresh.Spike.Hi.WaterTemp   <- 10
-myThresh.Spike.Lo.WaterTemp   <- 5
+myThresh.Spike.Hi.WaterTemp   <- 1.5
+myThresh.Spike.Lo.WaterTemp   <- 1
 myThresh.Spike.Hi.AirTemp     <- 10
-myThresh.Spike.Lo.AirTemp     <- 5
-myThresh.Spike.Hi.WaterP      <- 5
-myThresh.Spike.Lo.WaterP      <- 3
-myThresh.Spike.Hi.AirBP       <- 5
-myThresh.Spike.Lo.AirBP       <- 3
+myThresh.Spike.Lo.AirTemp     <- 8
+myThresh.Spike.Hi.WaterP      <- 0.7
+myThresh.Spike.Lo.WaterP      <- 0.5
+myThresh.Spike.Hi.AirBP       <- 0.25
+myThresh.Spike.Lo.AirBP       <- 0.15
 myThresh.Spike.Hi.SensorDepth  <- 5
 myThresh.Spike.Lo.SensorDepth  <- 3
 myThresh.Spike.Hi.Discharge   <- 10^4 #dependant upon stream size
@@ -333,23 +333,23 @@ myThresh.RoC.SD.period.GageHeight        <- myDefault.RoC.SD.period
 
 ## No Change (flat-line)
 myDefault.Flat.Hi         <- 30  # maximum is myThresh.Flat.MaxComp
-myDefault.Flat.Lo         <- 10
+myDefault.Flat.Lo         <- 15
 myDefault.Flat.Tolerance  <- 0.01 # set to one sigdig less than measurements.  Check with fivenum(x)
 
-myThresh.Flat.Hi.WaterTemp          <- myDefault.Flat.Hi
-myThresh.Flat.Lo.WaterTemp          <- myDefault.Flat.Lo
+myThresh.Flat.Hi.WaterTemp          <- 30
+myThresh.Flat.Lo.WaterTemp          <- 20
 myThresh.Flat.Tolerance.WaterTemp   <- 0.01
-myThresh.Flat.Hi.AirTemp            <- myDefault.Flat.Hi
-myThresh.Flat.Lo.AirTemp            <- myDefault.Flat.Lo
+myThresh.Flat.Hi.AirTemp            <- 15
+myThresh.Flat.Lo.AirTemp            <- 10
 myThresh.Flat.Tolerance.AirTemp     <- 0.01
-myThresh.Flat.Hi.WaterP             <- myDefault.Flat.Hi
-myThresh.Flat.Lo.WaterP             <- myDefault.Flat.Lo
+myThresh.Flat.Hi.WaterP             <- 15
+myThresh.Flat.Lo.WaterP             <- 10
 myThresh.Flat.Tolerance.WaterP      <- 0.001
-myThresh.Flat.Hi.AirBP              <- myDefault.Flat.Hi
-myThresh.Flat.Lo.AirBP              <- myDefault.Flat.Lo
+myThresh.Flat.Hi.AirBP              <- 15
+myThresh.Flat.Lo.AirBP              <- 10
 myThresh.Flat.Tolerance.AirBP       <- 0.001
-myThresh.Flat.Hi.SensorDepth         <- myDefault.Flat.Hi * 2
-myThresh.Flat.Lo.SensorDepth         <- myDefault.Flat.Lo * 2
+myThresh.Flat.Hi.SensorDepth         <- 60
+myThresh.Flat.Lo.SensorDepth         <- 20
 myThresh.Flat.Tolerance.SensorDepth  <- 0.0
 myThresh.Flat.Hi.Discharge          <- myDefault.Flat.Hi * 2
 myThresh.Flat.Lo.Discharge          <- myDefault.Flat.Lo * 2
