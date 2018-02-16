@@ -1,20 +1,15 @@
 # Continuous data helper script
 # Default Values
 # Erik.Leppo@tetratech.com (EWL)
-# 20150928,
-# 20171020, TN mods
-# 20180216, update threhsolds
-#  Flatline, default and watertemp from 30 to 40, Air temp 15 to 40
-#  replace section breaks of poundsign for tilde and add outline names
-#~~~~~~~~~~~~~~~~
+# 20150928
+##################
 # User defined variable names for input data
-#~~~~~~~~~~~~~~~~
+##################
 # It is assumed that this R script is stored in a directory with the data files as subdirectories
 # This script is intended to be "source"d from the main script.
-#~~~~~~~~~~~~~~~~
+#############################
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#  Config ####
+#####################################################################
 config.LoggingLevel <- DEBUG
 
 # Directory Names
@@ -31,16 +26,15 @@ config.LoggingFile <- file.path(config.Folder.Logs, 'main_script.log')
 # this is where the markdown files (templates) are stored
 config.Folder.Markdown  <- file.path(config.Folder.Root, 'markdown')
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#####################################################################
 # USER may make modifications in this section but not mandatory
 # this section could be sourced so can use between scripts
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#####################################################################
 
 # Delimiter in File Names (e.g., test2_AW_201301_20131231.csv)
 config.FileName.Delimiter  <- "_"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Column Names ####
+#####################################################################
 
 # Acceptable column names for the data
 #(special characters (e.g., %, space, or /) are converted to "." by R, "?" converted to "?")
@@ -69,30 +63,30 @@ myName.LoggerID.Water <- "Water.LoggerID"
 myName.WaterTemp      <- paste0("Water.Temp.",myUnits.WaterTemp)  # "?" from HoboWare files sometimes adds "? " in front.  Replace with "." in R.
 
 ## Air
-myName.RowID.Air      <- "Air.RowID"
-myName.LoggerID.Air   <- "Air.LoggerID"
-myName.AirTemp        <- paste0("Air.Temp.", myUnits.AirTemp)   # "?" from HoboWare files sometimes adds "? " in front.  Replace with "." in R.
-myName.WaterP         <- paste0("Water.P.", myUnits.WaterP)
-myName.AirBP          <- paste0("Air.BP.", myUnits.AirBP)
-myName.SensorDepth     <- paste0("Sensor.Depth.", myUnits.SensorDepth)
-myName.Discharge      <- paste0("Discharge.", myUnits.Discharge)
+myName.RowID.Air     <- "Air.RowID"
+myName.LoggerID.Air  <- "Air.LoggerID"
+myName.AirTemp       <- paste0("Air.Temp.", myUnits.AirTemp)   # "?" from HoboWare files sometimes adds "? " in front.  Replace with "." in R.
+myName.WaterP        <- paste0("Water.P.", myUnits.WaterP)
+myName.AirBP         <- paste0("Air.BP.", myUnits.AirBP)
+myName.SensorDepth   <- paste0("Sensor.Depth.", myUnits.SensorDepth)
+myName.Discharge     <- paste0("Discharge.", myUnits.Discharge)
 myName.Cond          <- paste0("Conductivity.",myUnits.Cond)
 myName.DO            <- paste0("DO.",myUnits.DO)
 myName.pH            <- paste0("pH.",myUnits.pH)
 myName.Turbidity     <- paste0("Turbidity.",myUnits.DO)
-myName.Chlorophylla   <- paste0("Chlorophylla.",myUnits.pH)
+myName.Chlorophylla  <- paste0("Chlorophylla.",myUnits.pH)
 myName.GageHeight    <- paste0("GageHeight.",myUnits.GageHeight)
 
 ## plot labels
-myLab.WaterTemp       <- paste("Temperature, Water (",myUnits.WaterTemp,")",sep="")
-myLab.AirTemp         <- paste("Temperature, Air (",myUnits.AirTemp,")",sep="")
-myLab.Date            <- "Date"
-myLab.DateTime        <- "Date"
-myLab.WaterP          <- paste("Pressure, Water (",myUnits.AirBP,")",sep="")
-myLab.AirBP           <- paste("Barometric Pressure, Air (",myUnits.WaterP,")",sep="")
-myLab.SensorDepth      <- paste("Sensor Depth (",myUnits.SensorDepth,")",sep="")
-myLab.Temp.BOTH       <- paste("Temperature (",myUnits.WaterTemp,")",sep="")
-myLab.Discharge       <- paste("Discharge (",sub("\\.","/",myUnits.Discharge),")")
+myLab.WaterTemp      <- paste("Temperature, Water (?",myUnits.WaterTemp,")",sep="")
+myLab.AirTemp        <- paste("Temperature, Air (?",myUnits.AirTemp,")",sep="")
+myLab.Date           <- "Date"
+myLab.DateTime       <- "Date"
+myLab.WaterP         <- paste("Pressure, Water (",myUnits.AirBP,")",sep="")
+myLab.AirBP          <- paste("Barometric Pressure, Air (",myUnits.WaterP,")",sep="")
+myLab.SensorDepth    <- paste("Sensor Depth (",myUnits.SensorDepth,")",sep="")
+myLab.Temp.BOTH      <- paste("Temperature (?",myUnits.WaterTemp,")",sep="")
+myLab.Discharge      <- paste("Discharge (ft?/s)")
 myLab.Cond           <- paste0("Conductivity (",sub("\\.","/",myUnits.Cond),")")    #replace "." with "/"
 myLab.DO             <- paste0("Dissolved Oxygen (",sub("\\.","/",myUnits.DO),")")  #replace "." with "/"
 myLab.pH             <- paste0("pH (",myUnits.pH,")")
@@ -100,8 +94,7 @@ myLab.Turbidity      <- paste0("Turbidity (",myUnits.Turbidity,")")
 myLab.Chlorophylla   <- paste0("Chlorophyll a (",sub("\\.","/",myUnits.Chlorophylla),")")    #replace "." with "/"
 myLab.GageHeight     <- paste0("Gage Height (",myUnits.GageHeight,")")
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#  Names, Discrete ####
+#####################################################################
 # Discrete Measurements
 myPrefix.Discrete           <- "Discrete"
 myName.Discrete.WaterTemp   <- paste(myPrefix.Discrete,myName.WaterTemp,sep=".")
@@ -131,8 +124,8 @@ myLab.Discrete.Chlorophylla <- paste(myPrefix.Discrete,myName.Chlorophylla,sep="
 myLab.Discrete.GageHeight <- paste(myPrefix.Discrete,myName.GageHeight,sep=".")
 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#  Names, Auto ####
+
+#####################################################################
 # Automated QC stuff
 ## data type/stages
 myDataQuality.Raw         <- "RAW"
@@ -141,42 +134,21 @@ myDataQuality.QCmanual    <- "QCmanual"
 myDataQuality.Final       <- "Final"
 myDataQuality.Aggregated  <- "Aggregated"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Aggregated Names ####
+#####################################################################
 
 # Data Fields
-myNames.DataFields <- c(myName.WaterTemp
-                        ,myName.AirTemp
-                        ,myName.WaterP
-                        ,myName.AirBP
-                        ,myName.SensorDepth
-                        ,myName.Discharge
-                        ,myName.Discrete.WaterTemp
-                        ,myName.Discrete.AirTemp
-                        ,myName.Discrete.WaterP
-                        ,myName.Discrete.AirBP
-                        ,myName.Discrete.SensorDepth
-                        ,myName.Discrete.Discharge
-                        , myName.Discrete.Cond
+myNames.DataFields <- c(myName.WaterTemp,myName.AirTemp,myName.WaterP,myName.AirBP,myName.SensorDepth,myName.Discharge
+                        ,myName.Discrete.WaterTemp,myName.Discrete.AirTemp,myName.Discrete.WaterP,myName.Discrete.AirBP,
+                        myName.Discrete.SensorDepth,myName.Discrete.Discharge, myName.Discrete.Cond
                         , myName.Discrete.DO
                         , myName.Discrete.pH
                         , myName.Discrete.Turbidity
                         , myName.Discrete.Chlorophylla
                         , myName.Discrete.GageHeight)
 
-myNames.DataFields.Lab <- c(myLab.WaterTemp
-                            ,myLab.AirTemp
-                            ,myLab.WaterP
-                            ,myLab.AirBP
-                            ,myLab.SensorDepth
-                            ,myLab.Discharge
-                            ,myLab.Discrete.WaterTemp
-                            ,myLab.Discrete.AirTemp
-                            ,myLab.Discrete.WaterP
-                            ,myLab.Discrete.AirBP,
-                            myLab.Discrete.SensorDepth
-                            ,myLab.Discrete.Discharge
-                            , myLab.Discrete.Cond
+myNames.DataFields.Lab <- c(myLab.WaterTemp,myLab.AirTemp,myLab.WaterP,myLab.AirBP,myLab.SensorDepth,myLab.Discharge
+                            ,myLab.Discrete.WaterTemp,myLab.Discrete.AirTemp,myLab.Discrete.WaterP,myLab.Discrete.AirBP,
+                            myLab.Discrete.SensorDepth,myLab.Discrete.Discharge, myLab.Discrete.Cond
                             , myLab.Discrete.DO
                             , myLab.Discrete.pH
                             , myLab.Discrete.Turbidity
@@ -187,37 +159,37 @@ myNames.DataFields.Col <- c("blue","green","gray","gray","black","brown")
 
 # Name Order (change order below to change order in output file)
 #
-myNames.Order <- c(myName.SiteID
-                   ,myName.Date
-                   ,myName.Time
-                   ,myName.DateTime
-                   ,myName.WaterTemp
-                   ,myName.LoggerID.Air
-                   ,myName.RowID.Air
-                   ,myName.AirTemp
-                   ,myName.WaterP
-                   ,myName.AirBP
-                   ,myName.SensorDepth
-                   ,myName.LoggerID.Water
-                   ,myName.RowID.Water
-                   ,myName.Discharge
-                   ,myName.Discrete.WaterTemp
-                   ,myName.Discrete.AirTemp
-                   ,myName.Discrete.WaterP
-                   ,myName.Discrete.AirBP
-                   ,myName.Discrete.SensorDepth
-                   ,myName.Discrete.Discharge
-                   , myName.Discrete.Cond
-                   , myName.Discrete.DO
-                   , myName.Discrete.pH
-                   , myName.Discrete.Turbidity
-                   , myName.Discrete.Chlorophylla
-                   , myName.Discrete.GageHeight)
+myNames.Order <- c(myName.SiteID,
+					myName.Date,
+					myName.Time,
+					myName.DateTime,
+					myName.WaterP,
+					myName.WaterTemp,
+					myName.LoggerID.Air,
+					myName.RowID.Air,
+					myName.AirBP,
+					myName.SensorDepth,
+					myName.AirTemp,
+					myName.LoggerID.Water,
+					myName.RowID.Water,
+					myName.Discharge,
+					myName.Discrete.WaterTemp,
+					myName.Discrete.AirTemp,
+					myName.Discrete.WaterP,
+					myName.Discrete.AirBP,
+					myName.Discrete.SensorDepth,
+					myName.Discrete.Discharge, 
+					myName.Discrete.Cond,
+					myName.Discrete.DO,
+					myName.Discrete.pH,
+					myName.Discrete.Turbidity,
+					myName.Discrete.Chlorophylla,
+					myName.Discrete.GageHeight)
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#  Flags ####
+######################################################################
 
 ## Data Quality Flag Values
+
 myFlagVal.Pass     <- "P" # try and leave it blank "P"
 myFlagVal.NotEval  <- "NA"
 myFlagVal.Suspect  <- "S"
@@ -225,8 +197,7 @@ myFlagVal.Fail     <- "F"
 myFlagVal.NoData   <- "X"
 myFlagVal.Order    <- c(myFlagVal.Pass, myFlagVal.Suspect, myFlagVal.Fail, myFlagVal.NoData)
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Thresholds ####
+#####################################################################
 
 # QC Tests and Calculations
 #http://stackoverflow.com/questions/16143700/pasting-two-vectors-with-combinations-of-all-vectors-elements
@@ -237,12 +208,12 @@ myFlagVal.Order    <- c(myFlagVal.Pass, myFlagVal.Suspect, myFlagVal.Fail, myFla
 ## Gross Min/Max, Fail (equipment)
 myThresh.Gross.Fail.Hi.WaterTemp  <- 30
 myThresh.Gross.Fail.Lo.WaterTemp  <- -2
-myThresh.Gross.Fail.Hi.AirTemp    <- 38
+myThresh.Gross.Fail.Hi.AirTemp    <- 35
 myThresh.Gross.Fail.Lo.AirTemp    <- -25
 myThresh.Gross.Fail.Hi.WaterP     <- 17
-myThresh.Gross.Fail.Lo.WaterP     <- 13
-myThresh.Gross.Fail.Hi.AirBP      <- 15
-myThresh.Gross.Fail.Lo.AirBP      <- 13
+myThresh.Gross.Fail.Lo.WaterP     <- 11
+myThresh.Gross.Fail.Hi.AirBP      <- 17
+myThresh.Gross.Fail.Lo.AirBP      <- 11
 myThresh.Gross.Fail.Hi.SensorDepth <- 6    # no longer used (only check for negative values for SensorDepth)
 myThresh.Gross.Fail.Lo.SensorDepth <- -1   # no longer used (only check for negative values for SensorDepth)
 myThresh.Gross.Fail.Hi.Discharge  <- 10^5 #dependant upon stream size (only checkf or negative values)
@@ -262,13 +233,13 @@ myThresh.Gross.Fail.Lo.GageHeight          <- -1
 
 ## Gross Min/Max, Suspect (extreme)
 myThresh.Gross.Suspect.Hi.WaterTemp  <- 25
-myThresh.Gross.Suspect.Lo.WaterTemp  <- -0.1
-myThresh.Gross.Suspect.Hi.AirTemp    <- 35
-myThresh.Gross.Suspect.Lo.AirTemp    <- -23
-myThresh.Gross.Suspect.Hi.WaterP     <- 16.8
-myThresh.Gross.Suspect.Lo.WaterP     <- 13.5
-myThresh.Gross.Suspect.Hi.AirBP      <- 14.8
-myThresh.Gross.Suspect.Lo.AirBP      <- 13.5
+myThresh.Gross.Suspect.Lo.WaterTemp  <- -1
+myThresh.Gross.Suspect.Hi.AirTemp    <- 30
+myThresh.Gross.Suspect.Lo.AirTemp    <- -20
+myThresh.Gross.Suspect.Hi.WaterP     <- 16
+myThresh.Gross.Suspect.Lo.WaterP     <- 12
+myThresh.Gross.Suspect.Hi.AirBP      <- 16
+myThresh.Gross.Suspect.Lo.AirBP      <- 12
 myThresh.Gross.Suspect.Hi.SensorDepth <- 5    # no longer used (only check for negative values for SensorDepth)
 myThresh.Gross.Suspect.Lo.SensorDepth <- 0    # no longer used (only check for negative values for SensorDepth)
 myThresh.Gross.Suspect.Hi.Discharge  <- 10^3 #dependant upon stream size (only checkf or negative values
@@ -287,14 +258,14 @@ myThresh.Gross.Suspect.Hi.GageHeight         <- 10^3
 myThresh.Gross.Suspect.Lo.GageHeight        <- 1
 
 ## Spike thresholds (absolute change)
-myThresh.Spike.Hi.WaterTemp   <- 1.5
-myThresh.Spike.Lo.WaterTemp   <- 1
+myThresh.Spike.Hi.WaterTemp   <- 10
+myThresh.Spike.Lo.WaterTemp   <- 5
 myThresh.Spike.Hi.AirTemp     <- 10
-myThresh.Spike.Lo.AirTemp     <- 8
-myThresh.Spike.Hi.WaterP      <- 0.7
-myThresh.Spike.Lo.WaterP      <- 0.5
-myThresh.Spike.Hi.AirBP       <- 0.25
-myThresh.Spike.Lo.AirBP       <- 0.15
+myThresh.Spike.Lo.AirTemp     <- 5
+myThresh.Spike.Hi.WaterP      <- 5
+myThresh.Spike.Lo.WaterP      <- 3
+myThresh.Spike.Hi.AirBP       <- 5
+myThresh.Spike.Lo.AirBP       <- 3
 myThresh.Spike.Hi.SensorDepth  <- 5
 myThresh.Spike.Lo.SensorDepth  <- 3
 myThresh.Spike.Hi.Discharge   <- 10^4 #dependant upon stream size
@@ -341,24 +312,24 @@ myThresh.RoC.SD.number.GageHeight         <- myDefault.RoC.SD.number
 myThresh.RoC.SD.period.GageHeight        <- myDefault.RoC.SD.period
 
 ## No Change (flat-line)
-myDefault.Flat.Hi         <- 40  # maximum is myThresh.Flat.MaxComp
-myDefault.Flat.Lo         <- 15
+myDefault.Flat.Hi         <- 30  # maximum is myThresh.Flat.MaxComp
+myDefault.Flat.Lo         <- 10
 myDefault.Flat.Tolerance  <- 0.01 # set to one sigdig less than measurements.  Check with fivenum(x)
 
-myThresh.Flat.Hi.WaterTemp          <- 40
-myThresh.Flat.Lo.WaterTemp          <- 20
+myThresh.Flat.Hi.WaterTemp          <- myDefault.Flat.Hi
+myThresh.Flat.Lo.WaterTemp          <- myDefault.Flat.Lo
 myThresh.Flat.Tolerance.WaterTemp   <- 0.01
-myThresh.Flat.Hi.AirTemp            <- 40
-myThresh.Flat.Lo.AirTemp            <- 10
+myThresh.Flat.Hi.AirTemp            <- myDefault.Flat.Hi
+myThresh.Flat.Lo.AirTemp            <- myDefault.Flat.Lo
 myThresh.Flat.Tolerance.AirTemp     <- 0.01
-myThresh.Flat.Hi.WaterP             <- 15
-myThresh.Flat.Lo.WaterP             <- 10
+myThresh.Flat.Hi.WaterP             <- myDefault.Flat.Hi
+myThresh.Flat.Lo.WaterP             <- myDefault.Flat.Lo
 myThresh.Flat.Tolerance.WaterP      <- 0.001
-myThresh.Flat.Hi.AirBP              <- 15
-myThresh.Flat.Lo.AirBP              <- 10
+myThresh.Flat.Hi.AirBP              <- myDefault.Flat.Hi
+myThresh.Flat.Lo.AirBP              <- myDefault.Flat.Lo
 myThresh.Flat.Tolerance.AirBP       <- 0.001
-myThresh.Flat.Hi.SensorDepth         <- 60
-myThresh.Flat.Lo.SensorDepth         <- 20
+myThresh.Flat.Hi.SensorDepth         <- myDefault.Flat.Hi * 2
+myThresh.Flat.Lo.SensorDepth         <- myDefault.Flat.Lo * 2
 myThresh.Flat.Tolerance.SensorDepth  <- 0.0
 myThresh.Flat.Hi.Discharge          <- myDefault.Flat.Hi * 2
 myThresh.Flat.Lo.Discharge          <- myDefault.Flat.Lo * 2
@@ -394,8 +365,7 @@ myThresh.Flat.MaxComp     <- max(myThresh.Flat.Hi.WaterTemp
                                  , myThresh.Flat.Hi.Chlorophylla
                                  , myThresh.Flat.Hi.GageHeight)
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Names, Fields and Flags ####
+#####################################################################
 
 # Data Fields with Flags
 myName.Flag <- "Flag" # flag prefix
@@ -421,15 +391,13 @@ myName.Flag.GageHeight        <- paste(myName.Flag,myName.GageHeight,sep=".")
 myNames.QCTests <- c("Gross","Spike","RoC","Flat")
 myNames.QCCalcs <- c("SD.Time","SD","SDxN",paste("n",1:myThresh.Flat.MaxComp,sep="."), "flat.Lo", "flat.Hi")
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Exceedance Values ####
+#####################################################################
 # Exceedance values for stats (default to Gross-Suspect-Hi value)
 myExceed.WaterTemp  <- myThresh.Gross.Suspect.Hi.WaterTemp
 myExceed.AirTemp    <- myThresh.Gross.Suspect.Hi.AirTemp
 myExceed.SensorDepth <- myThresh.Gross.Suspect.Hi.SensorDepth
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Date_Time ####
+#####################################################################
 # Date and Time Formats
 myFormat.Date           <- "%Y-%m-%d"
 myFormat.Time           <- "%H:%M:%S"
@@ -441,8 +409,7 @@ myTZ <- "America/New_York"
 
 pbcc.Format.Date <- "%d-%b-%y"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Time Frames ####
+######################################################################
 
 # Time Frames (MM-DD)
 myTimeFrame.Annual.Start        <- "0101"
@@ -474,14 +441,12 @@ myNames.Fields.TimePeriods <- c(myName.Yr
                                ,myName.JuDa
                                ,myName.Season
                                ,myName.YrSeason)
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Exclude Fails ####
+######################################################################
+
 # Trigger for Stats to exclude (TRUE) or include (FALSE) where flag = "fail"
 myStats.Fails.Exclude <- TRUE
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# EndOfFile ####
-
+######################################################################
 
 
 

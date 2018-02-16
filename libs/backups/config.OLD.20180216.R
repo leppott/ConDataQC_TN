@@ -1,20 +1,15 @@
 # Continuous data helper script
 # Default Values
 # Erik.Leppo@tetratech.com (EWL)
-# 20150928,
-# 20171020, TN mods
-# 20180216, update threhsolds
-#  Flatline, default and watertemp from 30 to 40, Air temp 15 to 40
-#  replace section breaks of poundsign for tilde and add outline names
-#~~~~~~~~~~~~~~~~
+# 20150928
+##################
 # User defined variable names for input data
-#~~~~~~~~~~~~~~~~
+##################
 # It is assumed that this R script is stored in a directory with the data files as subdirectories
 # This script is intended to be "source"d from the main script.
-#~~~~~~~~~~~~~~~~
+#############################
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#  Config ####
+#####################################################################
 config.LoggingLevel <- DEBUG
 
 # Directory Names
@@ -31,16 +26,15 @@ config.LoggingFile <- file.path(config.Folder.Logs, 'main_script.log')
 # this is where the markdown files (templates) are stored
 config.Folder.Markdown  <- file.path(config.Folder.Root, 'markdown')
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#####################################################################
 # USER may make modifications in this section but not mandatory
 # this section could be sourced so can use between scripts
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#####################################################################
 
 # Delimiter in File Names (e.g., test2_AW_201301_20131231.csv)
 config.FileName.Delimiter  <- "_"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Column Names ####
+#####################################################################
 
 # Acceptable column names for the data
 #(special characters (e.g., %, space, or /) are converted to "." by R, "?" converted to "?")
@@ -100,8 +94,7 @@ myLab.Turbidity      <- paste0("Turbidity (",myUnits.Turbidity,")")
 myLab.Chlorophylla   <- paste0("Chlorophyll a (",sub("\\.","/",myUnits.Chlorophylla),")")    #replace "." with "/"
 myLab.GageHeight     <- paste0("Gage Height (",myUnits.GageHeight,")")
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#  Names, Discrete ####
+#####################################################################
 # Discrete Measurements
 myPrefix.Discrete           <- "Discrete"
 myName.Discrete.WaterTemp   <- paste(myPrefix.Discrete,myName.WaterTemp,sep=".")
@@ -131,8 +124,8 @@ myLab.Discrete.Chlorophylla <- paste(myPrefix.Discrete,myName.Chlorophylla,sep="
 myLab.Discrete.GageHeight <- paste(myPrefix.Discrete,myName.GageHeight,sep=".")
 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#  Names, Auto ####
+
+#####################################################################
 # Automated QC stuff
 ## data type/stages
 myDataQuality.Raw         <- "RAW"
@@ -141,8 +134,7 @@ myDataQuality.QCmanual    <- "QCmanual"
 myDataQuality.Final       <- "Final"
 myDataQuality.Aggregated  <- "Aggregated"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Aggregated Names ####
+#####################################################################
 
 # Data Fields
 myNames.DataFields <- c(myName.WaterTemp
@@ -214,10 +206,10 @@ myNames.Order <- c(myName.SiteID
                    , myName.Discrete.Chlorophylla
                    , myName.Discrete.GageHeight)
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#  Flags ####
+######################################################################
 
 ## Data Quality Flag Values
+
 myFlagVal.Pass     <- "P" # try and leave it blank "P"
 myFlagVal.NotEval  <- "NA"
 myFlagVal.Suspect  <- "S"
@@ -225,8 +217,7 @@ myFlagVal.Fail     <- "F"
 myFlagVal.NoData   <- "X"
 myFlagVal.Order    <- c(myFlagVal.Pass, myFlagVal.Suspect, myFlagVal.Fail, myFlagVal.NoData)
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Thresholds ####
+#####################################################################
 
 # QC Tests and Calculations
 #http://stackoverflow.com/questions/16143700/pasting-two-vectors-with-combinations-of-all-vectors-elements
@@ -341,14 +332,14 @@ myThresh.RoC.SD.number.GageHeight         <- myDefault.RoC.SD.number
 myThresh.RoC.SD.period.GageHeight        <- myDefault.RoC.SD.period
 
 ## No Change (flat-line)
-myDefault.Flat.Hi         <- 40  # maximum is myThresh.Flat.MaxComp
+myDefault.Flat.Hi         <- 30  # maximum is myThresh.Flat.MaxComp
 myDefault.Flat.Lo         <- 15
 myDefault.Flat.Tolerance  <- 0.01 # set to one sigdig less than measurements.  Check with fivenum(x)
 
-myThresh.Flat.Hi.WaterTemp          <- 40
+myThresh.Flat.Hi.WaterTemp          <- 30
 myThresh.Flat.Lo.WaterTemp          <- 20
 myThresh.Flat.Tolerance.WaterTemp   <- 0.01
-myThresh.Flat.Hi.AirTemp            <- 40
+myThresh.Flat.Hi.AirTemp            <- 15
 myThresh.Flat.Lo.AirTemp            <- 10
 myThresh.Flat.Tolerance.AirTemp     <- 0.01
 myThresh.Flat.Hi.WaterP             <- 15
@@ -394,8 +385,7 @@ myThresh.Flat.MaxComp     <- max(myThresh.Flat.Hi.WaterTemp
                                  , myThresh.Flat.Hi.Chlorophylla
                                  , myThresh.Flat.Hi.GageHeight)
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Names, Fields and Flags ####
+#####################################################################
 
 # Data Fields with Flags
 myName.Flag <- "Flag" # flag prefix
@@ -421,15 +411,13 @@ myName.Flag.GageHeight        <- paste(myName.Flag,myName.GageHeight,sep=".")
 myNames.QCTests <- c("Gross","Spike","RoC","Flat")
 myNames.QCCalcs <- c("SD.Time","SD","SDxN",paste("n",1:myThresh.Flat.MaxComp,sep="."), "flat.Lo", "flat.Hi")
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Exceedance Values ####
+#####################################################################
 # Exceedance values for stats (default to Gross-Suspect-Hi value)
 myExceed.WaterTemp  <- myThresh.Gross.Suspect.Hi.WaterTemp
 myExceed.AirTemp    <- myThresh.Gross.Suspect.Hi.AirTemp
 myExceed.SensorDepth <- myThresh.Gross.Suspect.Hi.SensorDepth
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Date_Time ####
+#####################################################################
 # Date and Time Formats
 myFormat.Date           <- "%Y-%m-%d"
 myFormat.Time           <- "%H:%M:%S"
@@ -441,8 +429,7 @@ myTZ <- "America/New_York"
 
 pbcc.Format.Date <- "%d-%b-%y"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Time Frames ####
+######################################################################
 
 # Time Frames (MM-DD)
 myTimeFrame.Annual.Start        <- "0101"
@@ -474,14 +461,12 @@ myNames.Fields.TimePeriods <- c(myName.Yr
                                ,myName.JuDa
                                ,myName.Season
                                ,myName.YrSeason)
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Exclude Fails ####
+######################################################################
+
 # Trigger for Stats to exclude (TRUE) or include (FALSE) where flag = "fail"
 myStats.Fails.Exclude <- TRUE
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# EndOfFile ####
-
+######################################################################
 
 
 
